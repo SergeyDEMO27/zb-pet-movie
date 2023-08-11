@@ -1,10 +1,10 @@
 import React from "react";
 
-function App() {
+const App = () => {
   return (
     <div className='App'>
       <header className='App-header'>
-        <h1>L O G O</h1>
+        <h1>DEMO MOVIE</h1>
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
@@ -19,6 +19,6 @@ function App() {
       </header>
     </div>
   );
-}
+};
 
 export default App;
