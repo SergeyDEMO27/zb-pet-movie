@@ -1,9 +1,61 @@
 .searchSidebar {
   width: 100%;
   height: 100%;
-  background-color: #181b1e;
+  padding: 20px;
+  background-color: $color-secondary;
 
   h2 {
     margin: 0;
+  }
+}
+
+.search {
+  padding: 5px 10px;
+  color: $color-primary;
+  caret-color: $color-primary;
+  background-color: $color-secondary;
+  border: 2px solid $color-primary;
+  border-radius: 20px;
+  outline: none;
+}
+
+.popularTitle {
+  color: $color-white;
+}
+
+.moviesList {
+  @include reset-list;
+}
+
+.movie {
+  display: flex;
+  align-items: center;
+
+  .image {
+    width: 50px;
+    height: 100px;
+    margin-right: 15px;
+    background-color: peachpuff;
+  }
+
+  .movieTitle {
+    color: $color-white;
+    margin-bottom: 5px;
+  }
+
+  .genres {
+    margin-top: 5px;
+  }
+
+  .icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+    background-color: red;
+  }
+
+  .rating {
+    color: $color-white;
   }
 }

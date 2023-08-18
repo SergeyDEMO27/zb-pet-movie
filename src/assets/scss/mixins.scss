@@ -1,0 +1,44 @@
+@mixin main-title {
+  font-family: 'Lucky Lady', Arial, Helvetica, sans-serif;
+  font-size: 38px;
+  letter-spacing: 1px;
+  color: $color-white;
+}
+
+@mixin main-description {
+  font-family: 'Pathway Gothic One', Arial, Helvetica, sans-serif;
+  font-size: 28px;
+  color: $color-white;
+}
+
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+@mixin default-container {
+  max-width: 1300px;
+  margin: auto;
+  padding: 15px;
+}
+
+@mixin center-element {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin default-transition {
+  transition: 0.4s ease-in-out;
+}
