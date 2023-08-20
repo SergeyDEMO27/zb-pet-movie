@@ -3,7 +3,6 @@ import styles from './SearchSidebar.module.scss';
 
 export const SearchSidebar = () => (
   <section className={styles.searchSidebar}>
-    <h2>Search Sidebar</h2>
     <input className={styles.search} type="search" placeholder="Search" />
 
     <div>
