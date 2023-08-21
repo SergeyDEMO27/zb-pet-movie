@@ -7,7 +7,7 @@ import styles from './App.module.scss';
 
 export const App = () => (
   <BrowserRouter>
-    <div className={styles.app} style={{ height: '100vh' }}>
+    <div className={styles.app}>
       <div className={styles.leftSidebar}>
         <MainSidebar />
       </div>

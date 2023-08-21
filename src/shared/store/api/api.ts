@@ -13,5 +13,6 @@ export const api = createApi({
       Authorization: `Bearer ${BEARER_TOKEN}`,
     },
   }),
+
   endpoints: () => ({}),
 });
