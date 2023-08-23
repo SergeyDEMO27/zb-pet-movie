@@ -16,6 +16,20 @@ export interface Movie {
   media_type?: string;
 }
 
+export interface MovieDetailed extends Movie {
+  belongs_to_collection: string;
+  budget: number;
+  genres: { id: number; name: string }[];
+  homepage: string;
+  imdb_id: string;
+  production_companies: { name: string; origin_country: string }[];
+  production_countries: { name: string }[];
+  revenue: number;
+  runtime: number;
+  status: string;
+  tagline: string;
+}
+
 export interface Tv {
   adult: boolean;
   backdrop_path: string;
@@ -34,6 +48,24 @@ export interface Tv {
   media_type?: string;
 }
 
+export interface TvDetailed extends Tv {
+  created_by: { id: number; name: string }[];
+  episode_run_time: number[];
+  genres: { id: number; name: string }[];
+  homepage: string;
+  in_production: boolean;
+  languages: string[];
+  last_air_date: string;
+  networks: { id: number; name: string }[];
+  number_of_episodes: number;
+  number_of_seasons: number;
+  production_companies: { id: number; name: string }[];
+  production_countries: { name: string }[];
+  status: string;
+  tagline: string;
+  type: string;
+}
+
 export interface Person {
   adult: boolean;
   gender: number;
@@ -47,12 +79,22 @@ export interface Person {
   media_type?: string;
 }
 
+export interface PersonDetailed extends Person {
+  also_known_as: string[];
+  biography: string;
+  birthday: string;
+  deathday: string | null;
+  homepage: string;
+  imdb_id: string;
+  place_of_birth: string;
+}
+
 export type ContentType = Movie | Tv | Person;
 
 export interface FilteredResultData {
-  movie?: Movie[];
-  tv?: Tv[];
-  person?: Person[];
+  movie: Movie[];
+  tv: Tv[];
+  person: Person[];
 }
 
 export interface FilteredData {

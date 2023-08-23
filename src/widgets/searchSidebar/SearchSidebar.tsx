@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGetPopularMoviesQuery } from '../../shared/store/api/queries/moviesApi';
 import { useGetSearchResultsQuery } from '../../shared/store/api/queries/searchApi';
+import { SearchDropdown } from './ui/searchDropdown';
 import { posterSize } from './config';
 import styles from './SearchSidebar.module.scss';
 
@@ -16,7 +17,16 @@ export const SearchSidebar = () => {
 
   return (
     <section className={styles.searchSidebar}>
-      <input className={styles.search} type="search" placeholder="Search" value={searchValue} onChange={handleSearch} />
+      <div className={styles.searchWrapper}>
+        <input
+          className={styles.search}
+          type="search"
+          placeholder="Search"
+          value={searchValue}
+          onChange={handleSearch}
+        />
+        {searchResult ? <SearchDropdown searchResult={searchResult} /> : null}
+      </div>
 
       <div>
         <p className={styles.popularTitle}>Popular movies</p>
