@@ -1,18 +1,28 @@
 import { api } from '../api';
-import { Paginated, Movie } from '../../../types';
+import { Paginated, Movie, MovieDetailed } from '../../../types';
 
 export const moviesApi = api.injectEndpoints({
   endpoints: builder => ({
     getPopularMovies: builder.query<Paginated<Movie>, void>({
-      query: () => '/3/movie/popular',
+      query: () => '/movie/popular',
     }),
     getTrendingMovies: builder.query<Paginated<Movie>, void>({
-      query: () => '/3/trending/movie/week',
+      query: () => '/trending/movie/week',
     }),
     getAtCinemaTodayMovies: builder.query<Paginated<Movie>, void>({
-      query: () => '/3/movie/now_playing',
+      query: () => '/movie/now_playing',
+    }),
+    getMovie: builder.query<MovieDetailed, { movie_id: string }>({
+      query: arg => {
+        const { movie_id } = arg;
+
+        return {
+          url: `/movie/${movie_id}`,
+        };
+      },
     }),
   }),
 });
 
-export const { useGetPopularMoviesQuery, useGetTrendingMoviesQuery, useGetAtCinemaTodayMoviesQuery } = moviesApi;
+export const { useGetPopularMoviesQuery, useGetTrendingMoviesQuery, useGetAtCinemaTodayMoviesQuery, useGetMovieQuery } =
+  moviesApi;
