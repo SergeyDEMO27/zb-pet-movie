@@ -1,5 +1,5 @@
 import { api } from '../api';
-import { Paginated, Movie, MovieDetailed } from '../../../types';
+import { Paginated, Movie, MovieDetailed, Credits, MovieImages } from '../../../types';
 
 export const moviesApi = api.injectEndpoints({
   endpoints: builder => ({
@@ -21,8 +21,58 @@ export const moviesApi = api.injectEndpoints({
         };
       },
     }),
+    getMovieCredits: builder.query<Credits, { movie_id: string }>({
+      query: arg => {
+        const { movie_id } = arg;
+
+        return {
+          url: `/movie/${movie_id}/credits`,
+        };
+      },
+      transformResponse: (response: Credits) => {
+        const filteredCast = response.cast.slice(0, 10);
+        const director = response.crew.find(item => item.job === 'Director');
+
+        return { ...response, cast: filteredCast, director };
+      },
+    }),
+    getSimilarMovies: builder.query<Paginated<Movie>, { movie_id: string }>({
+      query: arg => {
+        const { movie_id } = arg;
+
+        return {
+          url: `/movie/${movie_id}/similar`,
+        };
+      },
+    }),
+    getMovieImages: builder.query<MovieImages, { movie_id: string }>({
+      query: arg => {
+        const { movie_id } = arg;
+
+        return {
+          url: `/movie/${movie_id}/images`,
+        };
+      },
+    }),
+    getMovieReviews: builder.query<MovieImages, { movie_id: string }>({
+      query: arg => {
+        const { movie_id } = arg;
+
+        return {
+          url: `/movie/${movie_id}/reviews`,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetPopularMoviesQuery, useGetTrendingMoviesQuery, useGetAtCinemaTodayMoviesQuery, useGetMovieQuery } =
-  moviesApi;
+export const {
+  useGetPopularMoviesQuery,
+  useGetTrendingMoviesQuery,
+  useGetAtCinemaTodayMoviesQuery,
+  useGetMovieQuery,
+  useGetMovieCreditsQuery,
+  useGetSimilarMoviesQuery,
+  useGetMovieImagesQuery,
+  useGetMovieReviewsQuery,
+} = moviesApi;

@@ -1,26 +1,24 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { posterSize } from './config';
-import { Movie } from '../../shared/types';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import styles from './MovieSlider.module.scss';
+import styles from './ImageSlider.module.scss';
 
-interface MovieSliderProps {
-  data: Movie[];
+interface ImageSliderProps {
+  data: { file_path: 'string' }[];
 }
 
-export const MovieSlider = ({ data }: MovieSliderProps) => {
+export const ImageSlider = ({ data }: ImageSliderProps) => {
   const IMAGE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
 
   return (
     <div>
       <Swiper
-        slidesPerView={6}
+        slidesPerView={4}
         spaceBetween={20}
         loop={true}
         showsPagination={false}
@@ -29,17 +27,9 @@ export const MovieSlider = ({ data }: MovieSliderProps) => {
         className={styles.swiper}>
         {data.map(item => {
           return (
-            <SwiperSlide key={item.id}>
+            <SwiperSlide key={item.file_path}>
               <div className={styles.item}>
-                <Link to={`/movie/${item.id}`}>
-                  <img
-                    className={styles.image}
-                    src={`${IMAGE_URL}${posterSize}${item?.poster_path}`}
-                    alt={item.original_title}
-                  />
-                  <p className={styles.movieTitle}>{item?.title || '-'}</p>
-                  <p className={styles.rating}>{item?.vote_average || '-'}</p>
-                </Link>
+                <img className={styles.image} src={`${IMAGE_URL}${posterSize}${item.file_path}`} alt="" />
               </div>
             </SwiperSlide>
           );

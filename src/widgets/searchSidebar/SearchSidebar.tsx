@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useGetPopularMoviesQuery } from '../../shared/store/api/queries/moviesApi';
 import { useGetSearchResultsQuery } from '../../shared/store/api/queries/searchApi';
 import { SearchDropdown } from './ui/searchDropdown';
@@ -35,17 +36,19 @@ export const SearchSidebar = () => {
             {popularMovies.results.map(movie => {
               return (
                 <li className={styles.movie} key={movie.id}>
-                  <img className={styles.image} src={`${IMAGE_URL}${posterSize}${movie?.poster_path}`} alt="" />
-                  <div className={styles.wrapper}>
-                    <p className={styles.movieTitle}>{movie?.title || '-'}</p>
-                    <p className={styles.genres}>{movie?.genre_ids?.length ? movie.genre_ids.join(', ') : '-'}</p>
-                    <p className={styles.rating}>
-                      <span className={styles.icon}>
-                        <img src="" alt="" />
-                      </span>
-                      {movie?.vote_average || '?'}
-                    </p>
-                  </div>
+                  <Link to={`/movie/${movie.id}`}>
+                    <img className={styles.image} src={`${IMAGE_URL}${posterSize}${movie?.poster_path}`} alt="" />
+                    <div className={styles.wrapper}>
+                      <p className={styles.movieTitle}>{movie?.title || '-'}</p>
+                      <p className={styles.genres}>{movie?.genre_ids?.length ? movie.genre_ids.join(', ') : '-'}</p>
+                      <p className={styles.rating}>
+                        <span className={styles.icon}>
+                          <img src="" alt="" />
+                        </span>
+                        {movie?.vote_average || '?'}
+                      </p>
+                    </div>
+                  </Link>
                 </li>
               );
             })}

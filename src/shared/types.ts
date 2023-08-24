@@ -77,6 +77,8 @@ export interface Person {
   profile_path: string;
   known_for: (Movie | Tv)[];
   media_type?: string;
+  character?: string;
+  job?: string;
 }
 
 export interface PersonDetailed extends Person {
@@ -109,4 +111,24 @@ export interface Paginated<T> {
   page: number;
   total_pages: number;
   total_results: number;
+}
+
+export interface Credits {
+  id: number;
+  cast: Person[];
+  crew: Person[];
+  director?: Person;
+}
+
+export interface MovieImages {
+  backdrops: { file_path: 'string' }[];
+}
+
+export interface MovieReview {
+  author: string;
+  author_details: { username: 'ChrisSawin'; avatar_path: string };
+  content: string;
+  created_at: string;
+  id: string;
+  updated_at: string;
 }
