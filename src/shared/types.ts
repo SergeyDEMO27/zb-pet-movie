@@ -124,11 +124,38 @@ export interface MovieImages {
   backdrops: { file_path: 'string' }[];
 }
 
-export interface MovieReview {
-  author: string;
-  author_details: { username: 'ChrisSawin'; avatar_path: string };
-  content: string;
-  created_at: string;
-  id: string;
-  updated_at: string;
+export interface MovieReviews {
+  id: number;
+  results: {
+    author: string;
+    author_details: { username: 'ChrisSawin'; avatar_path: string };
+    content: string;
+    created_at: string;
+    id: string;
+    updated_at: string;
+  }[];
+}
+
+export interface PersonImages {
+  id: number;
+  profiles: { file_path: string }[];
+}
+
+export interface Social {
+  facebook_id: string;
+  instagram_id: string;
+  tiktok_id?: string;
+  twitter_id: string;
+  youtube_id?: string;
+}
+
+export interface MovieVideos {
+  id: number;
+  results: {
+    name: string;
+    key: string;
+    site: 'YouTube';
+    published_at: string;
+    id: string;
+  }[];
 }

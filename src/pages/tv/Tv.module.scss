@@ -1,9 +1,8 @@
-.movie {
+.tv {
   width: 100%;
   height: 100%;
   padding: 50px;
-  color: blue;
-  background-color: green;
+  background-color: $color-secondary;
 }
 
 .head {
@@ -28,10 +27,35 @@
   color: $color-white;
 }
 
-.genre {
+.headInfo {
   color: $color-primary;
 
-  span {
+  span,
+  a {
     color: $color-white;
   }
+}
+
+.rating {
+  margin-left: auto;
+  color: $color-white;
+}
+
+.social {
+  a:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+.description {
+  padding: 10px;
+  margin-top: 20px;
+  color: $color-white;
+  border-top: 1px solid $color-primary;
+  border-bottom: 1px solid $color-primary;
+  text-align: center;
+}
+
+.articleTitle {
+  color: $color-white;
 }

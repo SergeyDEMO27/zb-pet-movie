@@ -4,18 +4,20 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { posterSize } from './config';
-import { Movie } from '../../shared/types';
+import { Movie, Tv } from '../../shared/types';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import styles from './MovieSlider.module.scss';
 
 interface MovieSliderProps {
-  data: Movie[];
+  data: Movie[] | Tv[];
+  sliderType: 'movie' | 'tv';
 }
 
-export const MovieSlider = ({ data }: MovieSliderProps) => {
+export const MovieSlider = ({ data, sliderType }: MovieSliderProps) => {
   const IMAGE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
+  const isMovie = sliderType === 'movie';
 
   return (
     <div>
@@ -31,14 +33,14 @@ export const MovieSlider = ({ data }: MovieSliderProps) => {
           return (
             <SwiperSlide key={item.id}>
               <div className={styles.item}>
-                <Link to={`/movie/${item.id}`}>
+                <Link to={`/${sliderType}/${item.id}`}>
                   <img
                     className={styles.image}
                     src={`${IMAGE_URL}${posterSize}${item?.poster_path}`}
                     alt={item.original_title}
                   />
-                  <p className={styles.movieTitle}>{item?.title || '-'}</p>
-                  <p className={styles.rating}>{item?.vote_average || '-'}</p>
+                  <p className={styles.movieTitle}>{item?.title || item?.name || '-'}</p>
+                  <p className={styles.rating}>{item?.vote_average || ''}</p>
                 </Link>
               </div>
             </SwiperSlide>

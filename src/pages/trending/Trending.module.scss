@@ -1,0 +1,23 @@
+.trending {
+  width: 100%;
+  height: 100%;
+  padding: 50px;
+  background-color: $color-secondary;
+}
+
+.title {
+  color: $color-white;
+}
+
+.trendingList {
+  @include reset-list;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 72%;
+
+  li {
+    width: 160px;
+    overflow: hidden;
+  }
+}

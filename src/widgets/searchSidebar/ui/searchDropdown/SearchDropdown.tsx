@@ -44,13 +44,15 @@ export const SearchDropdown = ({ searchResult }: SearchDropdownProps) => {
           {data?.tv.map(item => {
             return (
               <li className={styles.item} key={item.id}>
-                <img src={`${IMAGE_URL}${posterSize}${item?.poster_path}`} alt="" />
-                <div className={styles.wrapper}>
-                  <p>{item?.name}</p>
-                  <p>
-                    {item?.vote_average} {item?.original_name} {item?.first_air_date}
-                  </p>
-                </div>
+                <Link to={`/tv/${item.id}`}>
+                  <img src={`${IMAGE_URL}${posterSize}${item?.poster_path}`} alt="" />
+                  <div className={styles.wrapper}>
+                    <p>{item?.name}</p>
+                    <p>
+                      {item?.vote_average} {item?.original_name} {item?.first_air_date}
+                    </p>
+                  </div>
+                </Link>
               </li>
             );
           })}
@@ -62,11 +64,13 @@ export const SearchDropdown = ({ searchResult }: SearchDropdownProps) => {
           {data?.person.map(item => {
             return (
               <li className={styles.item} key={item.id}>
-                <img src={`${IMAGE_URL}${posterSize}${item?.profile_path}`} alt="" />
-                <div className={styles.wrapper}>
-                  <p>{item?.name}</p>
-                  <p>{item?.known_for_department}</p>
-                </div>
+                <Link to={`/person/${item.id}`}>
+                  <img src={`${IMAGE_URL}${posterSize}${item?.profile_path}`} alt="" />
+                  <div className={styles.wrapper}>
+                    <p>{item?.name}</p>
+                    <p>{item?.known_for_department}</p>
+                  </div>
+                </Link>
               </li>
             );
           })}

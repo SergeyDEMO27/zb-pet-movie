@@ -9,16 +9,18 @@ import 'swiper/css/navigation';
 import styles from './ImageSlider.module.scss';
 
 interface ImageSliderProps {
-  data: { file_path: 'string' }[];
+  data: { file_path: string }[];
+  imageType: 'movie' | 'person';
 }
 
-export const ImageSlider = ({ data }: ImageSliderProps) => {
+export const ImageSlider = ({ data, imageType }: ImageSliderProps) => {
   const IMAGE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
+  const isMovieType = imageType === 'movie';
 
   return (
     <div>
       <Swiper
-        slidesPerView={4}
+        slidesPerView={isMovieType ? 4 : 6}
         spaceBetween={20}
         loop={true}
         showsPagination={false}
@@ -29,7 +31,11 @@ export const ImageSlider = ({ data }: ImageSliderProps) => {
           return (
             <SwiperSlide key={item.file_path}>
               <div className={styles.item}>
-                <img className={styles.image} src={`${IMAGE_URL}${posterSize}${item.file_path}`} alt="" />
+                <img
+                  className={isMovieType ? styles.image : styles.personImage}
+                  src={`${IMAGE_URL}${posterSize}${item.file_path}`}
+                  alt=""
+                />
               </div>
             </SwiperSlide>
           );

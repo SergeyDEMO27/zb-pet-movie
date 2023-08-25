@@ -1,22 +1,35 @@
-.movie {
+.person {
   width: 100%;
   height: 100%;
   padding: 50px;
-  color: blue;
-  background-color: green;
+  background-color: $color-secondary;
 }
 
 .head {
   display: flex;
-  align-items: flex-end;
-  width: 100%;
-  padding: 20px;
-  min-height: 370px;
-  border-radius: 10px;
-  object-fit: contain;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: top;
+
+  &Wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &Image {
+    display: flex;
+    align-items: flex-end;
+    margin-right: 50px;
+    padding: 20px;
+    width: 247px;
+    min-height: 370px;
+    border-radius: 10px;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}
+
+.social {
+  a:not(:last-child) {
+    margin-right: 5px;
+  }
 }
 
 .title {
@@ -24,14 +37,11 @@
   color: $color-white;
 }
 
-.production {
+.description {
+  padding: 10px;
+  margin-top: 20px;
   color: $color-white;
-}
-
-.genre {
-  color: $color-primary;
-
-  span {
-    color: $color-white;
-  }
+  border-top: 1px solid $color-primary;
+  border-bottom: 1px solid $color-primary;
+  text-align: center;
 }

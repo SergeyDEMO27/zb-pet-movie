@@ -8,7 +8,7 @@ export const searchApi = api.injectEndpoints({
         const { query } = arg;
 
         return {
-          url: '/3/search/multi',
+          url: 'search/multi',
           params: { query },
         };
       },

@@ -2,21 +2,29 @@ import { useParams, Link } from 'react-router-dom';
 import {
   useGetMovieQuery,
   useGetMovieCreditsQuery,
-  useGetSimilarMoviesQuery,
+  useGetMovieSimilarQuery,
   useGetMovieImagesQuery,
   useGetMovieReviewsQuery,
+  useGetMovieSocialQuery,
+  useGetMovieVideosQuery,
 } from '../../shared/store/api/queries/moviesApi';
 import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
+import { MovieReviews } from '../../entities/movieReviews';
+import { posterSize } from './config';
+import { imageSliderType, darkGradient } from '../../shared/config';
 import styles from './Movie.module.scss';
 
 export const Movie = () => {
   const { id } = useParams<{ id: string }>();
   const { data: movie } = useGetMovieQuery({ movie_id: id || '' });
+  const { data: movieSocial } = useGetMovieSocialQuery({ movie_id: id || '' });
   const { data: movieCredits } = useGetMovieCreditsQuery({ movie_id: id || '' });
-  const { data: moviesSimilar } = useGetSimilarMoviesQuery({ movie_id: id || '' });
+  const { data: movieSimilar } = useGetMovieSimilarQuery({ movie_id: id || '' });
   const { data: movieImages } = useGetMovieImagesQuery({ movie_id: id || '' });
   const { data: movieReviews } = useGetMovieReviewsQuery({ movie_id: id || '' });
+  const { data: movieVideos } = useGetMovieVideosQuery({ movie_id: id || '' });
+  const IMAGE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
 
   return (
     <div className={styles.movie}>
@@ -25,8 +33,7 @@ export const Movie = () => {
           <div
             className={styles.head}
             style={{
-              backgroundImage: `linear-gradient(0deg,rgb(20, 20, 20) 4%,rgba(20, 20, 20, 0.46) 100%), 
-                url(${`https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/${movie.backdrop_path}`})`,
+              backgroundImage: `${darkGradient}, url(${`${IMAGE_URL}${posterSize}${movie.backdrop_path}`})`,
             }}>
             <div className={styles.wrapper}>
               <p className={styles.title}>{movie.title}</p>
@@ -62,15 +69,23 @@ export const Movie = () => {
                 Revenue: <span>{movie.revenue || '-'}</span>
               </p>
             </div>
+
+            <p className={styles.rating}>{movie.vote_average}</p>
+          </div>
+
+          <div className={styles.social}>
+            <a href={`https://www.facebook.com/${movieSocial?.facebook_id}`}>Facebook</a>
+            <a href={`https://www.instagram.com/${movieSocial?.instagram_id}`}>Instagram</a>
+            <a href={`https://www.twitter.com/${movieSocial?.twitter_id}`}>Twitter</a>
           </div>
 
           <div className={styles.description}>{movie?.overview || 'no description'}</div>
 
-          {moviesSimilar ? (
+          {movieSimilar ? (
             <div className={styles.article}>
               <h3 className={styles.articleTitle}>Similar</h3>
 
-              <MovieSlider data={moviesSimilar.results} />
+              <MovieSlider data={movieSimilar.results} sliderType={imageSliderType.MOVIE} />
             </div>
           ) : null}
 
@@ -78,7 +93,23 @@ export const Movie = () => {
             <div className={styles.article}>
               <h3 className={styles.articleTitle}>Images</h3>
 
-              <ImageSlider data={movieImages.backdrops} />
+              <ImageSlider data={movieImages.backdrops} imageType="movie" />
+            </div>
+          ) : null}
+
+          {movieVideos ? (
+            <div className={styles.article}>
+              <h3 className={styles.articleTitle}>Videos</h3>
+
+              {/* <MovieSlider data={movieVideos.results} sliderType={imageSliderType.MOVIE} /> */}
+            </div>
+          ) : null}
+
+          {movieReviews ? (
+            <div className={styles.article}>
+              <h3 className={styles.articleTitle}>Reviews</h3>
+
+              <MovieReviews data={movieReviews} />
             </div>
           ) : null}
         </div>

@@ -1,8 +1,8 @@
 export const menuItems = [
-  { title: 'Home', link: '', image: '' },
-  { title: 'Discovery', link: '', image: '' },
-  { title: 'Fresh movies', link: '', image: '' },
-  { title: 'Trending now', link: '', image: '' },
+  { title: 'Home', link: '/', image: '' },
+  { title: 'Discover', link: '/discover', image: '' },
+  { title: 'Fresh movies', link: '/latestMovies', image: '' },
+  { title: 'Trending now', link: '/trending', image: '' },
 ];
 export const genresItems = [
   { title: 'Comedy', link: '', image: '' },

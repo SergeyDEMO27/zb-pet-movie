@@ -1,17 +1,29 @@
 import { api } from '../api';
-import { Paginated, Movie, MovieDetailed, Credits, MovieImages } from '../../../types';
+import {
+  Paginated,
+  Movie,
+  MovieDetailed,
+  Credits,
+  MovieImages,
+  Social,
+  MovieVideos,
+  MovieReviews,
+} from '../../../types';
 
 export const moviesApi = api.injectEndpoints({
   endpoints: builder => ({
     getPopularMovies: builder.query<Paginated<Movie>, void>({
       query: () => '/movie/popular',
     }),
+
     getTrendingMovies: builder.query<Paginated<Movie>, void>({
       query: () => '/trending/movie/week',
     }),
+
     getAtCinemaTodayMovies: builder.query<Paginated<Movie>, void>({
       query: () => '/movie/now_playing',
     }),
+
     getMovie: builder.query<MovieDetailed, { movie_id: string }>({
       query: arg => {
         const { movie_id } = arg;
@@ -21,6 +33,17 @@ export const moviesApi = api.injectEndpoints({
         };
       },
     }),
+
+    getMovieSocial: builder.query<Social, { movie_id: string }>({
+      query: arg => {
+        const { movie_id } = arg;
+
+        return {
+          url: `/movie/${movie_id}/external_ids`,
+        };
+      },
+    }),
+
     getMovieCredits: builder.query<Credits, { movie_id: string }>({
       query: arg => {
         const { movie_id } = arg;
@@ -36,7 +59,8 @@ export const moviesApi = api.injectEndpoints({
         return { ...response, cast: filteredCast, director };
       },
     }),
-    getSimilarMovies: builder.query<Paginated<Movie>, { movie_id: string }>({
+
+    getMovieSimilar: builder.query<Paginated<Movie>, { movie_id: string }>({
       query: arg => {
         const { movie_id } = arg;
 
@@ -45,6 +69,7 @@ export const moviesApi = api.injectEndpoints({
         };
       },
     }),
+
     getMovieImages: builder.query<MovieImages, { movie_id: string }>({
       query: arg => {
         const { movie_id } = arg;
@@ -54,12 +79,28 @@ export const moviesApi = api.injectEndpoints({
         };
       },
     }),
-    getMovieReviews: builder.query<MovieImages, { movie_id: string }>({
+
+    getMovieReviews: builder.query<MovieReviews, { movie_id: string }>({
       query: arg => {
         const { movie_id } = arg;
 
         return {
           url: `/movie/${movie_id}/reviews`,
+        };
+      },
+      transformResponse: (response: MovieReviews) => {
+        const sortedReviews = [...(response?.results || [])].reverse();
+
+        return { ...response, results: sortedReviews };
+      },
+    }),
+
+    getMovieVideos: builder.query<MovieVideos, { movie_id: string }>({
+      query: arg => {
+        const { movie_id } = arg;
+
+        return {
+          url: `/movie/${movie_id}/videos`,
         };
       },
     }),
@@ -71,8 +112,10 @@ export const {
   useGetTrendingMoviesQuery,
   useGetAtCinemaTodayMoviesQuery,
   useGetMovieQuery,
+  useGetMovieSocialQuery,
   useGetMovieCreditsQuery,
-  useGetSimilarMoviesQuery,
+  useGetMovieSimilarQuery,
   useGetMovieImagesQuery,
   useGetMovieReviewsQuery,
+  useGetMovieVideosQuery,
 } = moviesApi;
