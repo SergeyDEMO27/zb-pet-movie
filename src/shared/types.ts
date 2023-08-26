@@ -1,3 +1,8 @@
+export interface Genre {
+  id: number;
+  name: string;
+}
+
 export interface Movie {
   adult: boolean;
   backdrop_path: string;
@@ -19,7 +24,7 @@ export interface Movie {
 export interface MovieDetailed extends Movie {
   belongs_to_collection: string;
   budget: number;
-  genres: { id: number; name: string }[];
+  genres: Genre[];
   homepage: string;
   imdb_id: string;
   production_companies: { name: string; origin_country: string }[];
@@ -51,7 +56,7 @@ export interface Tv {
 export interface TvDetailed extends Tv {
   created_by: { id: number; name: string }[];
   episode_run_time: number[];
-  genres: { id: number; name: string }[];
+  genres: Genre[];
   homepage: string;
   in_production: boolean;
   languages: string[];
@@ -158,4 +163,21 @@ export interface MovieVideos {
     published_at: string;
     id: string;
   }[];
+}
+
+export interface GenresList {
+  genres: Genre[];
+}
+
+export type SelectOptions = { value: number; label: string }[];
+
+export interface DiscoverReqData {
+  page?: number;
+  sort_by?: string;
+  with_genres?: number[];
+  without_genres?: number[];
+  vote_average?: number;
+  yearRange?: [Date, Date];
+  dateStart?: string;
+  dateEnd?: string;
 }

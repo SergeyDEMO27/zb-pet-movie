@@ -1,139 +1,117 @@
-import { useGetAtCinemaTodayMoviesQuery } from '../../shared/store/api/queries/moviesApi';
-import { MovieSlider } from '../../entities/movieSlider';
-import { imageSliderType } from '../../shared/config';
-import { Select } from 'antd';
+import { useEffect, useState } from 'react';
+import { useGetGenresMoviesQuery } from '../../shared/store/api/queries/genreApi';
+import { useGetDiscoverMoviesQuery } from '../../shared/store/api/queries/discoverApi';
+import { Form, Slider, Button, Select, DatePicker } from 'antd';
+import dayjs from 'dayjs';
+import { MovieList } from '../../entities/movieList';
+import { sortByOptions } from './config';
+import { SelectOptions, DiscoverReqData } from '../../shared/types';
 import styles from './Discover.module.scss';
 
 export const Discover = () => {
-  // const { data: atCinemaTodayMovies } = useGetAtCinemaTodayMoviesQuery();
+  const [form] = Form.useForm();
+  const [filterSettings, setFilterSettings] = useState<DiscoverReqData>({});
+  const [selectedGenres, setSelectedGenres] = useState<SelectOptions>([]);
+  const [disabledGenres, setDisabledGenres] = useState<SelectOptions>([]);
+  const { data: genresMovie } = useGetGenresMoviesQuery();
+  const { data: discoverMovies } = useGetDiscoverMoviesQuery(filterSettings);
+
+  useEffect(() => {
+    setSelectedGenres(genresMovie || []);
+  }, [genresMovie]);
+
+  const formSubmitHandler = (values: DiscoverReqData) => {
+    const reqData = {
+      ...values,
+      dateStart: values.yearRange?.[0] ? `${dayjs(values.yearRange[0]).format('YYYY')}-01-01` : '',
+      dateEnd: values.yearRange?.[1] ? `${dayjs(values.yearRange[1]).format('YYYY')}-12-31` : '',
+    };
+    setFilterSettings(reqData);
+  };
+
+  const handleSelectGenre = (values: number[]) => {
+    const filteredGenres = (genresMovie || []).filter(item => !values.includes(item.value));
+    setDisabledGenres(filteredGenres);
+  };
+
+  const handleChangePage = (value: number) => {
+    setFilterSettings({ ...filterSettings, page: value });
+  };
+
+  const handleResetDiscover = () => {
+    setFilterSettings({});
+    form.resetFields();
+  };
+
+  const handleDisableGenre = (values: number[]) => {
+    const filteredGenres = (genresMovie || []).filter(item => !values.includes(item.value));
+    setSelectedGenres(filteredGenres);
+  };
 
   return (
     <div className={styles.discover}>
-      <div className={styles.filter}>
-        <h1 className={styles.mainTitle}>Поиск фильмов</h1>
-        <div className={styles.sort}>
-          <h3 className={styles.title}>Сортировать результаты по</h3>
-          <Select
-          // onChange={getSortBy}
-          // placeholder={'-'}
-          // isSearchable={false}
-          // styles={selectStyleGenre}
-          // options={optionsFil}
-          // value={{
-          //   value: filterValues.sortBy,
-          //   label: sortByCurrentOpt[0].label,
-          // }}
-          />
-        </div>
-        <div className="discover-page__genres">
-          <h3 className="discover-page__title">Жанры</h3>
-          <div className="discover-page__genres-wrapper">
-            <div className="discover-page__genres-add">
-              <h4 className="discover-page__genres-title">Выбрать</h4>
-              {/* {genres.length > 0 && (
-                <Select
-                  styles={selectStyleGenre}
-                  placeholder={'-'}
-                  isSearchable={false}
-                  onChange={addGenreHandler}
-                  isMulti
-                  options={genres.filter(({ value }) => !filterValues.disabledGenres.includes(value))}
-                  value={genres.filter(({ value }) => filterValues.activeGenres.includes(value))}
-                />
-              )} */}
+      <h1 className={styles.mainTitle}>Search movies</h1>
+      <div className={styles.wrapper}>
+        <div className={styles.filter}>
+          <Form
+            form={form}
+            name="basic"
+            labelCol={{
+              span: 24,
+            }}
+            wrapperCol={{
+              span: 24,
+            }}
+            initialValues={{ vote_average: 0 }}
+            onFinish={formSubmitHandler}
+            autoComplete="off">
+            <Form.Item label="Sort by" name="sort_by">
+              <Select options={sortByOptions} />
+            </Form.Item>
+
+            <Form.Item label="Genres" name="with_genres">
+              <Select
+                onChange={handleSelectGenre}
+                options={selectedGenres.length ? selectedGenres : genresMovie || []}
+                mode="multiple"
+                allowClear
+              />
+            </Form.Item>
+
+            <Form.Item label="Disabled genres" name="without_genres">
+              <Select
+                onChange={handleDisableGenre}
+                options={disabledGenres.length ? disabledGenres : genresMovie || []}
+                mode="multiple"
+                allowClear
+              />
+            </Form.Item>
+
+            <Form.Item label="Year range" name="yearRange">
+              <DatePicker.RangePicker picker="year" />
+            </Form.Item>
+
+            <Form.Item label="Rating" name="vote_average">
+              <Slider max={10} min={0} step={0.1} />
+            </Form.Item>
+
+            <div className={styles.buttons}>
+              <Form.Item>
+                <Button htmlType="submit" className={styles.button} type="primary">
+                  Search
+                </Button>
+              </Form.Item>
+              <Button onClick={handleResetDiscover} className={styles.button}>
+                Reset
+              </Button>
             </div>
-            <div className="discover-page__genres-remove">
-              <h4 className="discover-page__genres-title">Исключить</h4>
-              {/* {genres.length > 0 && (
-                <Select
-                  styles={selectStyleGenre}
-                  placeholder={'-'}
-                  isSearchable={false}
-                  onChange={disableGenreHandler}
-                  isMulti
-                  options={genres.filter(({ value }) => !filterValues.activeGenres.includes(value))}
-                  value={genres.filter(({ value }) => filterValues.disabledGenres.includes(value))}
-                />
-              )} */}
-            </div>
-          </div>
+          </Form>
         </div>
-        <div className="discover-page__year">
-          <h3 className="discover-page__title">Годы создания</h3>
-          <div>
-            <h4 className="discover-page__subtitle">Год создания</h4>
-            <input
-              className="discover-page__year-actual"
-              // onChange={actualRangeHandler}
-              // type="number"
-              // placeholder="-"
-              // value={filterValues.yearsRange.actual}
-              // min="1890"
-              // max="2022"
-              // onWheel={e => e.target.blur()}
-            />
-          </div>
-          <div className="discover-page__year-range">
-            <h4 className="discover-page__subtitle">Или интервал годов</h4>
-            <div className="discover-page__year-range-wrapper">
-              <label className="discover-page__subtitle">
-                с
-                <Select
-                // styles={selectStyleDate}
-                // placeholder={'-'}
-                // isSearchable={false}
-                // options={discoverYears}
-                // menuShouldScrollIntoView={false}
-                // value={filterValues.yearsRange.start}
-                // onChange={startRangeHandler}
-                />
-              </label>
-              <label className="discover-page__subtitle">
-                по
-                <Select
-                // styles={selectStyleDate}
-                // placeholder={'-'}
-                // isSearchable={false}
-                // options={discoverYears}
-                // menuShouldScrollIntoView={false}
-                // value={filterValues.yearsRange.end}
-                // onChange={endRangeHandler}
-                />
-              </label>
-            </div>
-          </div>
+        <div className={styles.result}>
+          {discoverMovies ? (
+            <MovieList data={discoverMovies} listType="discover" handleChangePage={handleChangePage} />
+          ) : null}
         </div>
-        <div className="discover-page__rating">
-          <h3 className="discover-page__title">Пользовательский рейтинг</h3>
-          {/* <p className="discover-page__rating-description">От {filterValues.rating} баллов</p> */}
-          <input
-            className="discover-page__rating-bar"
-            // onChange={getRatingHandler}
-            type="range"
-            min="0"
-            max="10"
-            step="0.1"
-            name=""
-            id=""
-            // value={filterValues.rating}
-          />
-        </div>
-        <button
-          className="discover-page__search-button"
-          // onClick={getSearchHandler}
-        >
-          ПОИСК
-        </button>
-      </div>
-      <div className="discover-page__result">
-        {/* {Object.keys(discoverList).length > 0 && (
-          <DiscoverResult
-            content={discoverList}
-            changePageHandler={changePageHandler}
-            changePageButtonHandler={changePageButtonHandler}
-            type="movie"
-          />
-        )} */}
       </div>
     </div>
   );
