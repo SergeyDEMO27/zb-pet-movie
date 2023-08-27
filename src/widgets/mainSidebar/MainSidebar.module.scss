@@ -8,3 +8,45 @@
     margin: 0;
   }
 }
+
+.mainMenu {
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
+.title {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.list {
+  @include reset-list;
+}
+
+.item {
+  margin-bottom: 8px;
+  font-size: 16px;
+
+  .link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: $color-primary;
+
+    .icon {
+      margin-right: 10px;
+    }
+
+    &:hover {
+      color: $color-white;
+    }
+  }
+
+  &active {
+    .link {
+      color: $color-white;
+    }
+  }
+}

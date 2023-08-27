@@ -1,5 +1,7 @@
+import { SmileOutlined } from '@ant-design/icons';
 import { MovieReviews as MovieReviewsType } from '../../shared/types';
 import { avatarSize } from './config';
+import dayjs from 'dayjs';
 import styles from './MovieReviews.module.scss';
 
 interface MovieReviewsProps {
@@ -23,12 +25,16 @@ export const MovieReviews = ({ data }: MovieReviewsProps) => {
                     alt="avatar"
                   />
                 ) : (
-                  <div className={styles.reviewsImage}></div>
+                  <div className={styles.reviewsImage}>
+                    <SmileOutlined />
+                  </div>
                 )}
               </div>
               <span className={styles.reviewsAuthor}>{item?.author_details?.username || '-'}</span>
             </div>
-            <span className={styles.reviewsDate}>{item?.created_at || ''}</span>
+            <span className={styles.reviewsDate}>
+              {item?.created_at ? dayjs(item.created_at).format('DD MMMM YYYY') : ''}
+            </span>
           </div>
 
           <p>{item?.content || '-'}</p>

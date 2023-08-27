@@ -9,7 +9,10 @@ export const Main = () => {
   return (
     <div className={styles.main}>
       {atCinemaTodayMovies ? (
-        <MovieSlider data={atCinemaTodayMovies.results} sliderType={imageSliderType.MOVIE} />
+        <>
+          <h2 className={styles.title}>Now Showing</h2>
+          <MovieSlider data={atCinemaTodayMovies.results} sliderType={imageSliderType.MOVIE} />
+        </>
       ) : null}
     </div>
   );

@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { StarFilled } from '@ant-design/icons';
+import dayjs from 'dayjs';
 import { posterSize } from './config';
 import { FilteredData } from '../../../../shared/types';
 import styles from './SearchDropdown.module.scss';
@@ -10,71 +11,93 @@ interface SearchDropdownProps {
 
 export const SearchDropdown = ({ searchResult }: SearchDropdownProps) => {
   const IMAGE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
-  const [searchValue, setSearchValue] = useState('');
   const data = searchResult.results;
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  };
+  if (!data.movie && !data.tv && !data.person) return null;
 
   return (
     <section className={styles.searchDropdown}>
       {data?.movie?.length ? (
-        <ul className={styles.list}>
-          {data.movie.map(item => {
-            return (
-              <li className={styles.item} key={item.id}>
-                <Link to={`/movie/${item.id}`}>
-                  <img src={`${IMAGE_URL}${posterSize}${item?.poster_path}`} alt="" />
-                  <div className={styles.wrapper}>
-                    <p>{item?.title}</p>
-                    <p>
-                      {item?.vote_average} {item?.original_title} {item?.release_date}
-                    </p>
-                  </div>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <>
+          <h3 className={styles.title}>Movie</h3>
+          <ul className={styles.list}>
+            {data.movie.map(item => {
+              return (
+                <li className={styles.item} key={item.id}>
+                  <Link to={`/movie/${item.id}`}>
+                    <div className={styles.picture}>
+                      <img className={styles.image} src={`${IMAGE_URL}${posterSize}${item?.poster_path}`} alt="" />
+                    </div>
+                    <div className={styles.wrapper}>
+                      <p className={styles.movieTitle}>{item?.title || '-'}</p>
+                      <p className={styles.date}>{item?.release_date ? dayjs(item.release_date).format('YYYY') : ''}</p>
+                      <p className={styles.rating}>
+                        <span className={styles.icon}>
+                          <StarFilled />
+                        </span>
+                        {item?.vote_average || '?'}
+                      </p>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </>
       ) : null}
 
       {data?.tv?.length ? (
-        <ul className={styles.list}>
-          {data?.tv.map(item => {
-            return (
-              <li className={styles.item} key={item.id}>
-                <Link to={`/tv/${item.id}`}>
-                  <img src={`${IMAGE_URL}${posterSize}${item?.poster_path}`} alt="" />
-                  <div className={styles.wrapper}>
-                    <p>{item?.name}</p>
-                    <p>
-                      {item?.vote_average} {item?.original_name} {item?.first_air_date}
-                    </p>
-                  </div>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <>
+          <h3 className={styles.title}>Tv</h3>
+          <ul className={styles.list}>
+            {data?.tv.map(item => {
+              return (
+                <li className={styles.item} key={item.id}>
+                  <Link to={`/tv/${item.id}`}>
+                    <div className={styles.picture}>
+                      <img className={styles.image} src={`${IMAGE_URL}${posterSize}${item?.poster_path}`} alt="" />
+                    </div>
+                    <div className={styles.wrapper}>
+                      <p className={styles.movieTitle}>{item?.name || '-'}</p>
+                      <p className={styles.date}>
+                        {item?.first_air_date ? dayjs(item.first_air_date).format('YYYY') : ''}
+                      </p>
+                      <p className={styles.rating}>
+                        <span className={styles.icon}>
+                          <StarFilled />
+                        </span>
+                        {item?.vote_average ? Math.round(item.vote_average * 10) / 10 : '?'}
+                      </p>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </>
       ) : null}
 
       {data?.person?.length ? (
-        <ul className={styles.list}>
-          {data?.person.map(item => {
-            return (
-              <li className={styles.item} key={item.id}>
-                <Link to={`/person/${item.id}`}>
-                  <img src={`${IMAGE_URL}${posterSize}${item?.profile_path}`} alt="" />
-                  <div className={styles.wrapper}>
-                    <p>{item?.name}</p>
-                    <p>{item?.known_for_department}</p>
-                  </div>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <>
+          <h3 className={styles.title}>Person</h3>
+          <ul className={styles.list}>
+            {data?.person.map(item => {
+              return (
+                <li className={styles.item} key={item.id}>
+                  <Link to={`/person/${item.id}`}>
+                    <div className={styles.picture}>
+                      <img className={styles.image} src={`${IMAGE_URL}${posterSize}${item?.profile_path}`} alt="" />
+                    </div>
+                    <div className={styles.wrapper}>
+                      <p className={styles.movieTitle}>{item?.name || '-'}</p>
+                      <p className={styles.date}>{item?.known_for_department || ''}</p>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </>
       ) : null}
     </section>
   );

@@ -8,9 +8,12 @@ import {
   useGetMovieSocialQuery,
   useGetMovieVideosQuery,
 } from '../../shared/store/api/queries/moviesApi';
+import { StarFilled, FacebookFilled, InstagramFilled, TwitterSquareFilled } from '@ant-design/icons';
 import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
+import { VideoSlider } from '../../entities/videoSlider';
 import { MovieReviews } from '../../entities/movieReviews';
+import { priceNormalizer } from '../../shared/lib';
 import { posterSize } from './config';
 import { imageSliderType, darkGradient } from '../../shared/config';
 import styles from './Movie.module.scss';
@@ -38,11 +41,13 @@ export const Movie = () => {
             <div className={styles.wrapper}>
               <p className={styles.title}>{movie.title}</p>
               <p className={styles.production}>
-                {movie.release_date.split('-')[0]} &#8226;{' '}
-                {movie.production_countries.map((item, index) =>
-                  index !== movie.production_countries.length - 1 ? `${item.name}, ` : `${item.name}`,
-                )}{' '}
-                &#8226; {movie.runtime} min.
+                {movie?.release_date?.split('-')?.[0] || '-'} &#8226;{' '}
+                {movie?.production_countries?.length
+                  ? movie.production_countries.map((item, index) =>
+                      index !== movie.production_countries.length - 1 ? `${item.name}, ` : `${item.name}`,
+                    )
+                  : '-'}{' '}
+                &#8226; {movie?.runtime ? `${movie.runtime} min.` : '-'}
               </p>
               <p className={styles.headInfo}>
                 Director:{' '}
@@ -54,34 +59,53 @@ export const Movie = () => {
               </p>
               <p className={styles.headInfo}>
                 Genres:{' '}
-                {movie.genres.map((item, index) =>
-                  index !== movie.genres.length - 1 ? (
-                    <span key={item.id}> {item.name},</span>
-                  ) : (
-                    <span key={item.id}> {item.name}</span>
-                  ),
-                )}
+                {movie?.genres?.length
+                  ? movie.genres.map((item, index) =>
+                      index !== movie.genres.length - 1 ? (
+                        <span key={item.id}> {item.name},</span>
+                      ) : (
+                        <span key={item.id}> {item.name}</span>
+                      ),
+                    )
+                  : '-'}
               </p>
               <p className={styles.headInfo}>
-                Budget: <span>{movie.budget || '-'}</span>
+                Budget: {movie?.budget ? <span>&#36; {priceNormalizer(movie.budget)}</span> : '-'}
               </p>
               <p className={styles.headInfo}>
-                Revenue: <span>{movie.revenue || '-'}</span>
+                Revenue: {movie?.revenue ? <span>&#36; {priceNormalizer(movie.revenue)}</span> : '-'}
               </p>
             </div>
 
-            <p className={styles.rating}>{movie.vote_average}</p>
+            <p className={styles.rating}>
+              <span className={styles.icon}>
+                <StarFilled />
+              </span>
+              {movie?.vote_average ? Math.round(movie.vote_average * 10) / 10 : '?'}
+            </p>
           </div>
 
           <div className={styles.social}>
-            <a href={`https://www.facebook.com/${movieSocial?.facebook_id}`}>Facebook</a>
-            <a href={`https://www.instagram.com/${movieSocial?.instagram_id}`}>Instagram</a>
-            <a href={`https://www.twitter.com/${movieSocial?.twitter_id}`}>Twitter</a>
+            {movieSocial?.facebook_id ? (
+              <a href={`https://www.facebook.com/${movieSocial.facebook_id}`}>
+                <FacebookFilled />
+              </a>
+            ) : null}
+            {movieSocial?.instagram_id ? (
+              <a href={`https://www.instagram.com/${movieSocial.instagram_id}`}>
+                <InstagramFilled />
+              </a>
+            ) : null}
+            {movieSocial?.twitter_id ? (
+              <a href={`https://www.twitter.com/${movieSocial.twitter_id}`}>
+                <TwitterSquareFilled />
+              </a>
+            ) : null}
           </div>
 
           <div className={styles.description}>{movie?.overview || 'no description'}</div>
 
-          {movieSimilar ? (
+          {movieSimilar?.results?.length ? (
             <div className={styles.article}>
               <h3 className={styles.articleTitle}>Similar</h3>
 
@@ -89,7 +113,7 @@ export const Movie = () => {
             </div>
           ) : null}
 
-          {movieImages ? (
+          {movieImages?.backdrops?.length ? (
             <div className={styles.article}>
               <h3 className={styles.articleTitle}>Images</h3>
 
@@ -97,15 +121,15 @@ export const Movie = () => {
             </div>
           ) : null}
 
-          {movieVideos ? (
+          {movieVideos?.results?.length ? (
             <div className={styles.article}>
               <h3 className={styles.articleTitle}>Videos</h3>
 
-              {/* <MovieSlider data={movieVideos.results} sliderType={imageSliderType.MOVIE} /> */}
+              <VideoSlider data={movieVideos} />
             </div>
           ) : null}
 
-          {movieReviews ? (
+          {movieReviews?.results?.length ? (
             <div className={styles.article}>
               <h3 className={styles.articleTitle}>Reviews</h3>
 

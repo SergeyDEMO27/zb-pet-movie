@@ -1,13 +1,110 @@
+.movieSlider {
+  position: relative;
+}
+
 .swiper {
   max-width: 1000px;
   width: 100%;
   height: 100%;
   margin-left: auto;
   margin-right: auto;
+
+  :global {
+    .swiper-wrapper {
+      padding-top: 5px;
+    }
+  }
 }
 
-.image {
+.swiperButtonPrev,
+.swiperButtonNext {
+  position: absolute;
+  top: 100px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+
+  svg {
+    @include default-transition;
+    width: 25px;
+    height: 25px;
+  }
+
+  &:hover {
+    svg {
+      color: $color-red;
+    }
+  }
+}
+
+.swiperButtonPrev {
+  left: -5px;
+}
+
+.swiperButtonNext {
+  right: -10px;
+}
+
+.item {
+  position: relative;
+  color: $color-primary;
+
+  a {
+    text-decoration: none;
+    color: $color-primary;
+  }
+
+  &:hover {
+    .picture,
+    .rating,
+    img {
+      transform: scale(1.01);
+    }
+  }
+}
+
+.picture {
+  @include default-transition;
   width: 150px;
   height: 225px;
   border-radius: 10px;
+  background: no-repeat center $color-primary url('/assets/icons/empty-poster.svg');
+  background-size: 70%;
+  box-shadow: 2px 2px 2px #141414;
+
+  .image {
+    @include default-transition;
+    width: 150px;
+    height: 225px;
+    border-radius: 10px;
+  }
+}
+
+.movieTitle {
+  @include default-transition;
+  margin: 5px 0;
+  color: $color-white;
+
+  &:hover {
+    color: $color-red;
+  }
+}
+
+.movieDate {
+  margin-top: 5px;
+}
+
+.rating {
+  @include default-transition;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 5px 5px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: $color-white;
+
+  svg {
+    fill: $color-gold;
+  }
 }

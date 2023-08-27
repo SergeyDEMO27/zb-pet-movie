@@ -7,6 +7,7 @@ import {
   useGetTvReviewsQuery,
   useGetTvSocialQuery,
 } from '../../shared/store/api/queries/tvApi';
+import { StarFilled, FacebookFilled, InstagramFilled, TwitterSquareFilled } from '@ant-design/icons';
 import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
 import { MovieReviews } from '../../entities/movieReviews';
@@ -36,11 +37,13 @@ export const Tv = () => {
             <div className={styles.wrapper}>
               <p className={styles.title}>{tv.name}</p>
               <p className={styles.production}>
-                {tv.first_air_date.split('-')[0]} &#8226;{' '}
-                {tv.production_countries.map((item, index) =>
-                  index !== tv.production_countries.length - 1 ? `${item.name}, ` : `${item.name}`,
-                )}{' '}
-                &#8226; {tv.episode_run_time} min.
+                {tv.first_air_date?.split('-')?.[0] || '-'} &#8226;{' '}
+                {tv?.production_countries?.length
+                  ? tv.production_countries.map((item, index) =>
+                      index !== tv.production_countries.length - 1 ? `${item.name}, ` : `${item.name}`,
+                    )
+                  : '-'}{' '}
+                &#8226; {tv?.episode_run_time ? `${tv.episode_run_time} min.` : '-'}
               </p>
               <p className={styles.headInfo}>
                 Director:{' '}
@@ -52,29 +55,48 @@ export const Tv = () => {
               </p>
               <p className={styles.headInfo}>
                 Genres:{' '}
-                {tv.genres.map((item, index) =>
-                  index !== tv.genres.length - 1 ? (
-                    <span key={item.id}> {item.name},</span>
-                  ) : (
-                    <span key={item.id}> {item.name}</span>
-                  ),
-                )}
+                {tv?.genres?.length
+                  ? tv.genres.map((item, index) =>
+                      index !== tv.genres.length - 1 ? (
+                        <span key={item.id}> {item.name},</span>
+                      ) : (
+                        <span key={item.id}> {item.name}</span>
+                      ),
+                    )
+                  : '-'}
               </p>
               <p className={styles.headInfo}>
-                Number of seasons: <span>{tv.number_of_seasons || '-'}</span>
+                Number of seasons: <span>{tv?.number_of_seasons || '-'}</span>
               </p>
               <p className={styles.headInfo}>
-                Number of episodes: <span>{tv.number_of_episodes || '-'}</span>
+                Number of episodes: <span>{tv?.number_of_episodes || '-'}</span>
               </p>
             </div>
 
-            <p className={styles.rating}>{tv.vote_average}</p>
+            <p className={styles.rating}>
+              <span className={styles.icon}>
+                <StarFilled />
+              </span>
+              {tv?.vote_average ? Math.round(tv.vote_average * 10) / 10 : '?'}
+            </p>
           </div>
 
           <div className={styles.social}>
-            <a href={`https://www.facebook.com/${tvSocial?.facebook_id}`}>Facebook</a>
-            <a href={`https://www.instagram.com/${tvSocial?.instagram_id}`}>Instagram</a>
-            <a href={`https://www.twitter.com/${tvSocial?.twitter_id}`}>Twitter</a>
+            {tvSocial?.facebook_id ? (
+              <a href={`https://www.facebook.com/${tvSocial.facebook_id}`}>
+                <FacebookFilled />
+              </a>
+            ) : null}
+            {tvSocial?.instagram_id ? (
+              <a href={`https://www.instagram.com/${tvSocial.instagram_id}`}>
+                <InstagramFilled />
+              </a>
+            ) : null}
+            {tvSocial?.twitter_id ? (
+              <a href={`https://www.twitter.com/${tvSocial.twitter_id}`}>
+                <TwitterSquareFilled />
+              </a>
+            ) : null}
           </div>
 
           <div className={styles.description}>{tv?.overview || 'no description'}</div>

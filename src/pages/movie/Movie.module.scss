@@ -32,18 +32,47 @@
 
   span,
   a {
+    @include default-transition;
     color: $color-white;
+  }
+
+  a {
+    &:hover {
+      color: $color-red;
+    }
   }
 }
 
 .rating {
   margin-left: auto;
   color: $color-white;
+
+  .icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+
+    svg {
+      fill: $color-gold;
+    }
+  }
 }
 
 .social {
+  margin-top: 5px;
+  margin-left: 20px;
+
   a:not(:last-child) {
     margin-right: 5px;
+  }
+
+  svg {
+    @include default-transition;
+    fill: $color-white;
+
+    &:hover {
+      fill: $color-red;
+    }
   }
 }
 

@@ -1,0 +1,1 @@
+export { priceNormalizer } from './priceNormalizer';
