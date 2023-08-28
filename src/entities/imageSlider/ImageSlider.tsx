@@ -22,7 +22,22 @@ export const ImageSlider = ({ data, imageType }: ImageSliderProps) => {
   return (
     <div className={styles.imageSlider}>
       <Swiper
-        slidesPerView={isMovieType ? 4 : 6}
+        breakpoints={{
+          // when window width is >= 640px
+          640: {
+            width: 640,
+            slidesPerView: 1,
+          },
+          // when window width is >= 768px
+          1500: {
+            width: 768,
+            slidesPerView: 5,
+          },
+          1600: {
+            slidesPerView: 6,
+          },
+        }}
+        // slidesPerView={isMovieType ? 4 : 6}
         spaceBetween={20}
         loop={true}
         showsPagination={false}

@@ -5,7 +5,12 @@ import {
   useGetPersonSocialQuery,
   useGetPersonMovieCreditsQuery,
 } from '../../shared/store/api/queries/personApi';
+import { Typography } from 'antd';
+import { FacebookFilled, InstagramFilled, TwitterSquareFilled, YoutubeFilled } from '@ant-design/icons';
+import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
+import dayjs from 'dayjs';
+import { imageSliderType } from '../../shared/config';
 import styles from './Person.module.scss';
 
 export const Person = () => {
@@ -24,16 +29,31 @@ export const Person = () => {
               <div
                 className={styles.headImage}
                 style={{
-                  backgroundImage: `linear-gradient(0deg,rgb(20, 20, 20) 4%,rgba(20, 20, 20, 0.46) 100%), 
-            url(${`https://image.tmdb.org/t/p/w500/${person.profile_path}`})`,
+                  backgroundImage: `url(${`https://image.tmdb.org/t/p/w500/${person.profile_path}`})`,
                 }}
               />
+
               <div className={styles.social}>
-                <a href={`https://www.facebook.com/${personSocial?.facebook_id}`}>Facebook</a>
-                <a href={`https://www.instagram.com/${personSocial?.instagram_id}`}>Instagram</a>
-                <a href={`https://www.tiktok.com/@${personSocial?.tiktok_id}`}>Tiktok</a>
-                <a href={`https://www.twitter.com/${personSocial?.twitter_id}`}>Twitter</a>
-                <a href={`https://www.youtube.com/${personSocial?.youtube_id}`}>Youtube</a>
+                {personSocial?.facebook_id ? (
+                  <a href={`https://www.facebook.com/${personSocial.facebook_id}`}>
+                    <FacebookFilled />
+                  </a>
+                ) : null}
+                {personSocial?.instagram_id ? (
+                  <a href={`https://www.instagram.com/${personSocial.instagram_id}`}>
+                    <InstagramFilled />
+                  </a>
+                ) : null}
+                {personSocial?.twitter_id ? (
+                  <a href={`https://www.twitter.com/${personSocial.twitter_id}`}>
+                    <TwitterSquareFilled />
+                  </a>
+                ) : null}
+                {personSocial?.youtube_id ? (
+                  <a href={`https://www.twitter.com/${personSocial.youtube_id}`}>
+                    <YoutubeFilled />
+                  </a>
+                ) : null}
               </div>
             </div>
 
@@ -43,11 +63,11 @@ export const Person = () => {
                 Career: <span>{person.known_for_department}</span>
               </p>
               <p className={styles.headInfo}>
-                Birthday: <span>{person.birthday}</span>
+                Birthday: <span> {person?.birthday ? dayjs(person?.birthday).format('DD MMMM YYYY') : ''}</span>
               </p>
               {person?.deathday ? (
                 <p className={styles.headInfo}>
-                  Deathday: <span>{person.deathday}</span>
+                  Deathday: <span>{dayjs(person?.birthday).format('DD MMMM YYYY')}</span>
                 </p>
               ) : null}
               <p className={styles.headInfo}>
@@ -56,15 +76,24 @@ export const Person = () => {
             </div>
           </div>
 
-          <div className={styles.description}>{person?.biography || 'no description'}</div>
+          <div className={styles.description} key={person.id}>
+            <Typography.Paragraph
+              ellipsis={{
+                rows: 3,
+                expandable: true,
+                symbol: 'more',
+              }}>
+              {person?.biography || '-'}
+            </Typography.Paragraph>
+          </div>
 
-          {/* {moviesSimilar ? (
+          {personMovieCredits?.cast?.length ? (
             <div className={styles.article}>
-              <h3 className={styles.articleTitle}>Similar</h3>
+              <h3 className={styles.articleTitle}>Known For</h3>
 
-              <MovieSlider data={moviesSimilar.results} />
+              <MovieSlider data={personMovieCredits.cast.slice(0, 20)} sliderType={imageSliderType.MOVIE} />
             </div>
-          ) : null} */}
+          ) : null}
 
           {personImages ? (
             <div className={styles.article}>

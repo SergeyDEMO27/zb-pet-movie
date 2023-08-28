@@ -7,6 +7,7 @@ import {
   useGetTvReviewsQuery,
   useGetTvSocialQuery,
 } from '../../shared/store/api/queries/tvApi';
+import { Typography } from 'antd';
 import { StarFilled, FacebookFilled, InstagramFilled, TwitterSquareFilled } from '@ant-design/icons';
 import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
@@ -99,7 +100,16 @@ export const Tv = () => {
             ) : null}
           </div>
 
-          <div className={styles.description}>{tv?.overview || 'no description'}</div>
+          <div className={styles.description} key={tv.id}>
+            <Typography.Paragraph
+              ellipsis={{
+                rows: 3,
+                expandable: true,
+                symbol: 'more',
+              }}>
+              {tv?.overview || '-'}
+            </Typography.Paragraph>
+          </div>
 
           {tvSimilar ? (
             <div className={styles.article}>

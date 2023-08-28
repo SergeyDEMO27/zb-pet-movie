@@ -12,15 +12,32 @@ import {
 
 export const moviesApi = api.injectEndpoints({
   endpoints: builder => ({
-    getPopularMovies: builder.query<Paginated<Movie>, void>({
+    getMoviesPopular: builder.query<Paginated<Movie>, void>({
       query: () => '/movie/popular',
     }),
 
-    getTrendingMovies: builder.query<Paginated<Movie>, void>({
+    getMoviesUpcoming: builder.query<Paginated<Movie>, void>({
+      query: () => '/movie/upcoming',
+    }),
+
+    getMoviesTopRated: builder.query<Paginated<Movie>, { pageNumber?: number }>({
+      // query: () => '/movie/top_rated',
+
+      query: arg => {
+        const { pageNumber } = arg;
+
+        return {
+          url: '/movie/top_rated',
+          params: { page: pageNumber },
+        };
+      },
+    }),
+
+    getMoviesTrending: builder.query<Paginated<Movie>, void>({
       query: () => '/trending/movie/week',
     }),
 
-    getAtCinemaTodayMovies: builder.query<Paginated<Movie>, void>({
+    getMoviesAtCinemaToday: builder.query<Paginated<Movie>, void>({
       query: () => '/movie/now_playing',
     }),
 
@@ -108,9 +125,9 @@ export const moviesApi = api.injectEndpoints({
 });
 
 export const {
-  useGetPopularMoviesQuery,
-  useGetTrendingMoviesQuery,
-  useGetAtCinemaTodayMoviesQuery,
+  useGetMoviesPopularQuery,
+  useGetMoviesTrendingQuery,
+  useGetMoviesAtCinemaTodayQuery,
   useGetMovieQuery,
   useGetMovieSocialQuery,
   useGetMovieCreditsQuery,
@@ -118,4 +135,6 @@ export const {
   useGetMovieImagesQuery,
   useGetMovieReviewsQuery,
   useGetMovieVideosQuery,
+  useGetMoviesUpcomingQuery,
+  useGetMoviesTopRatedQuery,
 } = moviesApi;

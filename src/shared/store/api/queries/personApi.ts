@@ -1,5 +1,5 @@
 import { api } from '../api';
-import { PersonDetailed, PersonImages, Social, Credits } from '../../../types';
+import { PersonDetailed, PersonImages, Social, MovieCredits } from '../../../types';
 
 export const personApi = api.injectEndpoints({
   endpoints: builder => ({
@@ -33,7 +33,7 @@ export const personApi = api.injectEndpoints({
       },
     }),
 
-    getPersonMovieCredits: builder.query<Credits, { person_id: string }>({
+    getPersonMovieCredits: builder.query<MovieCredits, { person_id: string }>({
       query: arg => {
         const { person_id } = arg;
 

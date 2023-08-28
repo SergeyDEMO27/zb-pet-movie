@@ -1,3 +1,4 @@
+import { Typography } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import { MovieReviews as MovieReviewsType } from '../../shared/types';
 import { avatarSize } from './config';
@@ -37,7 +38,16 @@ export const MovieReviews = ({ data }: MovieReviewsProps) => {
             </span>
           </div>
 
-          <p>{item?.content || '-'}</p>
+          <div className={styles.content} key={item.id}>
+            <Typography.Paragraph
+              ellipsis={{
+                rows: 3,
+                expandable: true,
+                symbol: 'more',
+              }}>
+              {item?.content || '-'}
+            </Typography.Paragraph>
+          </div>
         </li>
       ))}
     </ul>

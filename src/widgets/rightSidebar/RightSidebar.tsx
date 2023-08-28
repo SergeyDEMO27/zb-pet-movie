@@ -1,36 +1,16 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useGetPopularMoviesQuery } from '../../shared/store/api/queries/moviesApi';
-import { useGetSearchResultsQuery } from '../../shared/store/api/queries/searchApi';
+import { useGetMoviesPopularQuery } from '../../shared/store/api/queries/moviesApi';
 import { StarFilled } from '@ant-design/icons';
-import { SearchDropdown } from './ui/searchDropdown';
 import dayjs from 'dayjs';
 import { posterSize } from './config';
-import styles from './SearchSidebar.module.scss';
+import styles from './RightSidebar.module.scss';
 
-export const SearchSidebar = () => {
+export const RightSidebar = () => {
   const IMAGE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
-  const [searchValue, setSearchValue] = useState('');
-  const { data: popularMovies } = useGetPopularMoviesQuery();
-  const { data: searchResult } = useGetSearchResultsQuery({ query: searchValue });
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  };
+  const { data: popularMovies } = useGetMoviesPopularQuery();
 
   return (
-    <section className={styles.searchSidebar}>
-      <div className={styles.searchWrapper}>
-        <input
-          className={styles.search}
-          type="search"
-          placeholder="Search"
-          value={searchValue}
-          onChange={handleSearch}
-        />
-        {searchResult ? <SearchDropdown searchResult={searchResult} /> : null}
-      </div>
-
+    <section className={styles.rightSidebar}>
       <div>
         <p className={styles.popularTitle}>Popular movies</p>
         {popularMovies?.results ? (

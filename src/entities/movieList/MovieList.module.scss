@@ -1,3 +1,98 @@
+.movieList {
+  :global {
+    .ant-pagination-item {
+      a {
+        color: $color-primary;
+      }
+
+      &:hover {
+        a {
+          color: $color-white;
+        }
+      }
+    }
+
+    .anticon > svg {
+      fill: $color-primary;
+    }
+
+    :where(.css-dev-only-do-not-override-17a39f8).ant-pagination
+      .ant-pagination-jump-next
+      .ant-pagination-item-container
+      .ant-pagination-item-ellipsis {
+      color: $color-primary;
+    }
+
+    .ant-pagination-item-active {
+      background-color: transparent;
+      border-color: $color-primary;
+
+      a {
+        color: $color-white;
+      }
+
+      &:hover {
+        border-color: $color-primary;
+
+        a {
+          color: $color-white;
+        }
+      }
+    }
+  }
+
+  .rating {
+    svg {
+      fill: $color-gold;
+    }
+  }
+}
+
+.paginationTop {
+  margin-bottom: 20px;
+}
+
 .paginationBottom {
+  margin-top: 20px;
   text-align: right;
+}
+
+.item {
+  position: relative;
+  color: $color-primary;
+
+  a {
+    text-decoration: none;
+    color: $color-primary;
+  }
+}
+
+.picture,
+.image {
+  border-radius: 10px;
+}
+
+.movieTitle {
+  @include default-transition;
+  margin: 5px 0;
+  color: $color-white;
+
+  &:hover {
+    color: $color-red;
+  }
+}
+
+.movieDate {
+  margin-top: 5px;
+}
+
+.rating {
+  @include default-transition;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 5px 0 0 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: $color-white;
 }

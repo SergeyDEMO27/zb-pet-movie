@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { MainSidebar } from '../widgets/mainSidebar';
-import { SearchSidebar } from '../widgets/searchSidebar';
+import { RightSidebar } from '../widgets/rightSidebar';
+import { SearchHeader } from '../widgets/searchHeader';
 import { Content } from './content';
 import styles from './App.module.scss';
 
@@ -12,10 +13,11 @@ export const App = () => (
         <MainSidebar />
       </div>
       <div className={styles.content}>
+        <SearchHeader />
         <Content />
       </div>
       <div className={styles.rightSidebar}>
-        <SearchSidebar />
+        <RightSidebar />
       </div>
     </div>
   </BrowserRouter>

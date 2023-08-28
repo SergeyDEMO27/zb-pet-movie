@@ -125,6 +125,12 @@ export interface Credits {
   director?: Person;
 }
 
+export interface MovieCredits {
+  id: number;
+  cast: Movie[];
+  crew: Movie[];
+}
+
 export interface MovieImages {
   backdrops: { file_path: 'string' }[];
 }

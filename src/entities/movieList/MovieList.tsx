@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Pagination, List, Empty } from 'antd';
+import { StarFilled } from '@ant-design/icons';
+import dayjs from 'dayjs';
 import { posterSize, listSizeDiscover, listSizeTrending } from './config';
 import { Paginated, Movie, Tv } from '../../shared/types';
 import styles from './MovieList.module.scss';
@@ -17,6 +19,7 @@ export const MovieList = ({ data, listType, handleChangePage }: MovieListProps) 
     <div className={styles.movieList}>
       {data?.results?.length ? (
         <Pagination
+          className={styles.paginationTop}
           onChange={handleChangePage}
           current={data?.page || 0}
           total={data?.total_pages || 0}
@@ -31,15 +34,18 @@ export const MovieList = ({ data, listType, handleChangePage }: MovieListProps) 
           emptyText: <Empty description="No data was found by your request" />,
         }}
         renderItem={item => (
-          <List.Item>
+          <List.Item className={styles.item}>
             <Link to={`/movie/${item.id}`}>
-              <img src={`${IMAGE_URL}${posterSize}${item?.poster_path}`} alt="" />
-              <div className={styles.wrapper}>
-                <p>{item?.title}</p>
-                <p>
-                  {item?.vote_average} {item?.release_date}
-                </p>
+              <div className={styles.picture}>
+                <img className={styles.image} src={`${IMAGE_URL}${posterSize}${item?.poster_path}`} alt="" />
               </div>
+              <p className={styles.movieTitle}>{item?.title || '-'}</p>
+              <p className={styles.rating}>
+                <StarFilled /> {item?.vote_average ? Math.round(item.vote_average * 10) / 10 : '?'}
+              </p>
+              <p className={styles.movieDate}>
+                {item?.release_date ? dayjs(item.release_date).format('DD MMMM YYYY') : ''}
+              </p>
             </Link>
           </List.Item>
         )}

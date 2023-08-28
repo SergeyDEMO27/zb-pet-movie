@@ -8,6 +8,7 @@ import {
   useGetMovieSocialQuery,
   useGetMovieVideosQuery,
 } from '../../shared/store/api/queries/moviesApi';
+import { Typography } from 'antd';
 import { StarFilled, FacebookFilled, InstagramFilled, TwitterSquareFilled } from '@ant-design/icons';
 import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
@@ -103,7 +104,24 @@ export const Movie = () => {
             ) : null}
           </div>
 
-          <div className={styles.description}>{movie?.overview || 'no description'}</div>
+          <div className={styles.description} key={movie.id}>
+            <Typography.Paragraph
+              ellipsis={{
+                rows: 3,
+                expandable: true,
+                symbol: 'more',
+              }}>
+              {movie?.overview || '-'}
+            </Typography.Paragraph>
+          </div>
+
+          {movieCredits?.cast?.length ? (
+            <div className={styles.article}>
+              <h3 className={styles.articleTitle}>Cast</h3>
+
+              <MovieSlider data={movieCredits.cast.slice(0, 20)} sliderType={imageSliderType.PERSON} />
+            </div>
+          ) : null}
 
           {movieSimilar?.results?.length ? (
             <div className={styles.article}>

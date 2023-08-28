@@ -1,0 +1,25 @@
+.searchHeader {
+  width: 100%;
+  height: 70px;
+  padding: 20px 20px 0 20px;
+  background-color: $color-secondary;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.searchWrapper {
+  position: relative;
+}
+
+.search {
+  width: 100%;
+  padding: 5px 10px;
+  color: $color-primary;
+  caret-color: $color-primary;
+  background-color: $color-secondary;
+  border: 2px solid $color-primary;
+  border-radius: 20px;
+  outline: none;
+}

@@ -5,6 +5,7 @@ import { Person } from '../../pages/person';
 import { Tv } from '../../pages/tv';
 import { Discover } from '../../pages/discover';
 import { Trending } from '../../pages/trending';
+import { TopMovies } from '../../pages/topMovies';
 
 export const Content = () => {
   return (
@@ -15,6 +16,7 @@ export const Content = () => {
       <Route path="/person/:id/*" element={<Person />} />
       <Route path="/discover" element={<Discover />} />
       <Route path="/trending" element={<Trending />} />
+      <Route path="/top" element={<TopMovies />} />
     </Routes>
   );
 };

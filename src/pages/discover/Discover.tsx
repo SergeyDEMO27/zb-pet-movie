@@ -50,7 +50,7 @@ export const Discover = () => {
 
   return (
     <div className={styles.discover}>
-      <h1 className={styles.mainTitle}>Search movies</h1>
+      <h2 className={styles.mainTitle}>Discover movies</h2>
       <div className={styles.wrapper}>
         <div className={styles.filter}>
           <Form

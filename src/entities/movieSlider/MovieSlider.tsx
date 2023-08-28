@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { posterSize } from './config';
-import { Movie, Tv } from '../../shared/types';
+import { Movie, Tv, Person } from '../../shared/types';
 import dayjs from 'dayjs';
 import { StarFilled, ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import 'swiper/css';
@@ -13,8 +13,8 @@ import 'swiper/css/navigation';
 import styles from './MovieSlider.module.scss';
 
 interface MovieSliderProps {
-  data: Movie[] | Tv[];
-  sliderType: 'movie' | 'tv';
+  data: Movie[] | Tv[] | Person[];
+  sliderType: 'movie' | 'tv' | 'person';
 }
 
 export const MovieSlider = ({ data, sliderType }: MovieSliderProps) => {
@@ -23,13 +23,38 @@ export const MovieSlider = ({ data, sliderType }: MovieSliderProps) => {
   return (
     <div className={styles.movieSlider}>
       <Swiper
-        slidesPerView={6}
+        breakpoints={{
+          320: {
+            slidesPerView: 1,
+          },
+          475: {
+            slidesPerView: 2,
+          },
+          650: {
+            slidesPerView: 3,
+          },
+          768: {
+            slidesPerView: 2,
+          },
+          865: {
+            slidesPerView: 3,
+          },
+          1250: {
+            slidesPerView: 4,
+          },
+          1420: {
+            slidesPerView: 5,
+          },
+          1600: {
+            slidesPerView: 6,
+          },
+        }}
         spaceBetween={20}
         loop={true}
         showsPagination={false}
         navigation={{
-          prevEl: '.swiperBtnPrev',
-          nextEl: '.swiperBtnNext',
+          prevEl: `.swiperBtnPrev${sliderType}`,
+          nextEl: `.swiperBtnNext${sliderType}`,
         }}
         modules={[Navigation]}
         className={styles.swiper}>
@@ -39,25 +64,33 @@ export const MovieSlider = ({ data, sliderType }: MovieSliderProps) => {
               <div className={styles.item}>
                 <Link to={`/${sliderType}/${item.id}`}>
                   <div className={styles.picture}>
-                    <img className={styles.image} src={`${IMAGE_URL}${posterSize}${item?.poster_path}`} alt="" />
+                    <img
+                      className={styles.image}
+                      src={`${IMAGE_URL}${posterSize}${item?.poster_path || item?.profile_path}`}
+                      alt=""
+                    />
                   </div>
                   <p className={styles.movieTitle}>{item?.title || item?.name || '-'}</p>
-                  <p className={styles.rating}>
-                    <StarFilled /> {item?.vote_average ? Math.round(item.vote_average * 10) / 10 : '?'}
-                  </p>
-                  <p className={styles.movieDate}>
-                    {dayjs(item?.release_date || item?.first_air_date || '').format('DD MMMM YYYY')}
-                  </p>
+                  {sliderType !== 'person' ? (
+                    <p className={styles.rating}>
+                      <StarFilled /> {item?.vote_average ? Math.round(item.vote_average * 10) / 10 : '?'}
+                    </p>
+                  ) : null}
+                  {sliderType !== 'person' ? (
+                    <p className={styles.movieDate}>
+                      {dayjs(item?.release_date || item?.first_air_date || '').format('DD MMMM YYYY')}
+                    </p>
+                  ) : null}
                 </Link>
               </div>
             </SwiperSlide>
           );
         })}
       </Swiper>
-      <div className={`${styles.swiperButtonPrev} swiperBtnPrev`}>
+      <div className={`${styles.swiperButtonPrev} swiperBtnPrev${sliderType}`}>
         <ArrowLeftOutlined />
       </div>
-      <div className={`${styles.swiperButtonNext} swiperBtnNext`}>
+      <div className={`${styles.swiperButtonNext} swiperBtnNext${sliderType}`}>
         <ArrowRightOutlined />
       </div>
     </div>
