@@ -20,9 +20,7 @@ export const moviesApi = api.injectEndpoints({
       query: () => '/movie/upcoming',
     }),
 
-    getMoviesTopRated: builder.query<Paginated<Movie>, { pageNumber?: number }>({
-      // query: () => '/movie/top_rated',
-
+    getMoviesTopRated: builder.query<Paginated<Movie>, { pageNumber: number }>({
       query: arg => {
         const { pageNumber } = arg;
 

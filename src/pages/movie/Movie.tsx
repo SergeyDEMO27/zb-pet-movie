@@ -21,7 +21,7 @@ import styles from './Movie.module.scss';
 
 export const Movie = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: movie } = useGetMovieQuery({ movie_id: id || '' });
+  const { data: movie, isError, isLoading } = useGetMovieQuery({ movie_id: id || '' });
   const { data: movieSocial } = useGetMovieSocialQuery({ movie_id: id || '' });
   const { data: movieCredits } = useGetMovieCreditsQuery({ movie_id: id || '' });
   const { data: movieSimilar } = useGetMovieSimilarQuery({ movie_id: id || '' });

@@ -13,8 +13,12 @@ export const Discover = () => {
   const [filterSettings, setFilterSettings] = useState<DiscoverReqData>({});
   const [selectedGenres, setSelectedGenres] = useState<SelectOptions>([]);
   const [disabledGenres, setDisabledGenres] = useState<SelectOptions>([]);
-  const { data: genresMovie } = useGetGenresMoviesQuery();
-  const { data: discoverMovies } = useGetDiscoverMoviesQuery(filterSettings);
+  const { data: genresMovie, isError: isGenreError, isLoading: isGenreLoading } = useGetGenresMoviesQuery();
+  const {
+    data: discoverMovies,
+    isError: isDiscoverError,
+    isLoading: isDiscoverLoading,
+  } = useGetDiscoverMoviesQuery(filterSettings);
 
   useEffect(() => {
     setSelectedGenres(genresMovie || []);

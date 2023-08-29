@@ -15,7 +15,7 @@ import styles from './Person.module.scss';
 
 export const Person = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: person } = useGetPersonQuery({ person_id: id || '' });
+  const { data: person, isError, isLoading } = useGetPersonQuery({ person_id: id || '' });
   const { data: personImages } = useGetPersonImagesQuery({ person_id: id || '' });
   const { data: personSocial } = useGetPersonSocialQuery({ person_id: id || '' });
   const { data: personMovieCredits } = useGetPersonMovieCreditsQuery({ person_id: id || '' });

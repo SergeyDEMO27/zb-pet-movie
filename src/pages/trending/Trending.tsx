@@ -5,7 +5,7 @@ import styles from './Trending.module.scss';
 
 export const Trending = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: trending } = useGetTrendingMovieQuery({ pageNumber: currentPage });
+  const { data: trending, isError, isLoading } = useGetTrendingMovieQuery({ pageNumber: currentPage });
 
   const handleChangePage = (value: number) => {
     setCurrentPage(value);

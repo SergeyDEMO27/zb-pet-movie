@@ -13,9 +13,21 @@ import styles from './Main.module.scss';
 
 export const Main = () => {
   const IMAGE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
-  const { data: moviesAtCinema } = useGetMoviesAtCinemaTodayQuery();
-  const { data: moviesPopular } = useGetMoviesPopularQuery();
-  const { data: moviesTopRated } = useGetMoviesTopRatedQuery({ pageNumber: 1 });
+  const {
+    data: moviesAtCinema,
+    isError: isMoviesAtCinemaError,
+    isLoading: isMoviesAtCinemaLoading,
+  } = useGetMoviesAtCinemaTodayQuery();
+  const {
+    data: moviesPopular,
+    isError: isMoviesPopularError,
+    isLoading: isMoviesPopularLoading,
+  } = useGetMoviesPopularQuery();
+  const {
+    data: moviesTopRated,
+    isError: isMoviesTopRatedError,
+    isLoading: isMoviesTopRatedLoading,
+  } = useGetMoviesTopRatedQuery({ pageNumber: 1 });
 
   const randomTopMovie = moviesTopRated
     ? moviesTopRated.results[getRandomNumber(0, moviesTopRated.results.length - 1)]

@@ -5,7 +5,11 @@ import styles from './TopMovies.module.scss';
 
 export const TopMovies = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: moviesTop } = useGetMoviesTopRatedQuery({
+  const {
+    data: moviesTop,
+    isError,
+    isLoading,
+  } = useGetMoviesTopRatedQuery({
     pageNumber: currentPage,
   });
 

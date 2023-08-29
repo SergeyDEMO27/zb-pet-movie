@@ -18,7 +18,7 @@ import styles from './Tv.module.scss';
 
 export const Tv = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: tv } = useGetTvQuery({ tv_id: id || '' });
+  const { data: tv, isError, isLoading } = useGetTvQuery({ tv_id: id || '' });
   const { data: tvSocial } = useGetTvSocialQuery({ tv_id: id || '' });
   const { data: tvCredits } = useGetTvCreditsQuery({ tv_id: id || '' });
   const { data: tvSimilar } = useGetTvSimilarQuery({ tv_id: id || '' });
