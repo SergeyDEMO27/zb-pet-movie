@@ -7,9 +7,10 @@ import styles from './SearchDropdown.module.scss';
 
 interface SearchDropdownProps {
   searchResult: FilteredData;
+  handleOpenMovie: () => void;
 }
 
-export const SearchDropdown = ({ searchResult }: SearchDropdownProps) => {
+export const SearchDropdown = ({ searchResult, handleOpenMovie }: SearchDropdownProps) => {
   const IMAGE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
   const data = searchResult.results;
 
@@ -24,7 +25,7 @@ export const SearchDropdown = ({ searchResult }: SearchDropdownProps) => {
             {data.movie.map(item => {
               return (
                 <li className={styles.item} key={item.id}>
-                  <Link to={`/movie/${item.id}`}>
+                  <Link onClick={handleOpenMovie} to={`/movie/${item.id}`}>
                     <div className={styles.picture}>
                       <img className={styles.image} src={`${IMAGE_URL}${posterSize}${item?.poster_path}`} alt="" />
                     </div>

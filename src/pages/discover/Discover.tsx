@@ -101,7 +101,7 @@ export const Discover = () => {
 
             <div className={styles.buttons}>
               <Form.Item>
-                <Button htmlType="submit" className={styles.button} type="primary">
+                <Button htmlType="submit" className={styles.button} type="primary" loading={isDiscoverLoading}>
                   Search
                 </Button>
               </Form.Item>

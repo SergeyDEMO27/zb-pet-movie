@@ -23,3 +23,9 @@
   border-radius: 20px;
   outline: none;
 }
+
+.drop {
+  position: relative;
+  opacity: 0;
+  z-index: -1;
+}

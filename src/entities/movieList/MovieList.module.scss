@@ -67,9 +67,18 @@
   }
 }
 
-.picture,
-.image {
+.picture {
+  width: 92px;
+  height: 138px;
+  background: no-repeat center $color-primary url('/assets/icons/empty-poster.svg');
+  background-size: 70%;
   border-radius: 10px;
+
+  .image {
+    width: 92px;
+    height: 138px;
+    border-radius: 10px;
+  }
 }
 
 .movieTitle {
