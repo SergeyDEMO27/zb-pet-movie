@@ -55,9 +55,11 @@ html {
 
 @media screen and (min-width: 320px) and (max-width: 768px) {
   .leftSidebar {
-    display: none;
     position: absolute;
     top: 0;
     left: 0;
+    min-width: unset;
+    width: unset;
+    z-index: 10;
   }
 }

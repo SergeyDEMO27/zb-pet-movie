@@ -87,3 +87,36 @@
     }
   }
 }
+
+@media screen and (min-width: 768px) and (max-width: 1250px) {
+  .randomMovie {
+    height: 320px;
+
+    .movieOverview {
+      max-width: 60%;
+    }
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 768px) {
+  .randomMovie {
+    height: 280px;
+
+    .movieTitle {
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    .movieLink {
+      button {
+        font-size: 12px;
+      }
+    }
+
+    .movieOverview {
+      max-width: 80%;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  }
+}

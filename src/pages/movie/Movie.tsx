@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   useGetMovieQuery,
@@ -8,13 +9,15 @@ import {
   useGetMovieSocialQuery,
   useGetMovieVideosQuery,
 } from '../../shared/store/api/queries/moviesApi';
-import { Typography } from 'antd';
+import { Typography, Button } from 'antd';
 import { StarFilled, FacebookFilled, InstagramFilled, TwitterSquareFilled } from '@ant-design/icons';
 import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
 import { VideoSlider } from '../../entities/videoSlider';
 import { MovieReviews } from '../../entities/movieReviews';
-import { priceNormalizer } from '../../shared/lib';
+import { DetailedInfo } from '../../entities/detailedInfo';
+import { MainModal } from '../../shared/ui/mainModal';
+import { priceNormalizer, roundToDecimal } from '../../shared/lib';
 import { posterSize } from './config';
 import { imageSliderType, darkGradient } from '../../shared/config';
 import styles from './Movie.module.scss';
@@ -28,7 +31,12 @@ export const Movie = () => {
   const { data: movieImages } = useGetMovieImagesQuery({ movie_id: id || '' });
   const { data: movieReviews } = useGetMovieReviewsQuery({ movie_id: id || '' });
   const { data: movieVideos } = useGetMovieVideosQuery({ movie_id: id || '' });
+  const [isDetailed, setIsDetailed] = useState(false);
   const IMAGE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
+
+  const handleDetailedModal = (value: boolean) => {
+    setIsDetailed(value);
+  };
 
   return (
     <div className={styles.movie}>
@@ -71,18 +79,22 @@ export const Movie = () => {
                   : '-'}
               </p>
               <p className={styles.headInfo}>
-                Budget: {movie?.budget ? <span>&#36; {priceNormalizer(movie.budget)}</span> : '-'}
+                Budget: {movie?.budget ? <span>&#36;{priceNormalizer(movie.budget)}</span> : '-'}
               </p>
               <p className={styles.headInfo}>
-                Revenue: {movie?.revenue ? <span>&#36; {priceNormalizer(movie.revenue)}</span> : '-'}
+                Revenue: {movie?.revenue ? <span>&#36;{priceNormalizer(movie.revenue)}</span> : '-'}
               </p>
+
+              <button className={styles.more} type="button" onClick={() => handleDetailedModal(true)}>
+                more info
+              </button>
             </div>
 
             <p className={styles.rating}>
               <span className={styles.icon}>
                 <StarFilled />
               </span>
-              {movie?.vote_average ? Math.round(movie.vote_average * 10) / 10 : '?'}
+              {movie?.vote_average ? roundToDecimal(movie.vote_average) : '?'}
             </p>
           </div>
 
@@ -158,6 +170,10 @@ export const Movie = () => {
       ) : (
         'MOVIE DID NOT FOUND'
       )}
+
+      <MainModal isOpen={isDetailed} closeHandler={() => handleDetailedModal(false)}>
+        <DetailedInfo movie={movie} movieCredits={movieCredits} detailedType="movie" />
+      </MainModal>
     </div>
   );
 };

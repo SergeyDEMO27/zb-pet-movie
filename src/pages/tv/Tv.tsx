@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   useGetTvQuery,
@@ -12,6 +13,9 @@ import { StarFilled, FacebookFilled, InstagramFilled, TwitterSquareFilled } from
 import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
 import { MovieReviews } from '../../entities/movieReviews';
+import { DetailedInfo } from '../../entities/detailedInfo';
+import { MainModal } from '../../shared/ui/mainModal';
+import { roundToDecimal } from '../../shared/lib';
 import { posterSize } from './config';
 import { imageSliderType, darkGradient } from '../../shared/config';
 import styles from './Tv.module.scss';
@@ -24,7 +28,12 @@ export const Tv = () => {
   const { data: tvSimilar } = useGetTvSimilarQuery({ tv_id: id || '' });
   const { data: tvImages } = useGetTvImagesQuery({ tv_id: id || '' });
   const { data: tvReviews } = useGetTvReviewsQuery({ tv_id: id || '' });
+  const [isDetailed, setIsDetailed] = useState(false);
   const IMAGE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
+
+  const handleDetailedModal = (value: boolean) => {
+    setIsDetailed(value);
+  };
 
   return (
     <div className={styles.tv}>
@@ -72,13 +81,17 @@ export const Tv = () => {
               <p className={styles.headInfo}>
                 Number of episodes: <span>{tv?.number_of_episodes || '-'}</span>
               </p>
+
+              <button className={styles.more} type="button" onClick={() => handleDetailedModal(true)}>
+                more info
+              </button>
             </div>
 
             <p className={styles.rating}>
               <span className={styles.icon}>
                 <StarFilled />
               </span>
-              {tv?.vote_average ? Math.round(tv.vote_average * 10) / 10 : '?'}
+              {tv?.vote_average ? roundToDecimal(tv.vote_average) : '?'}
             </p>
           </div>
 
@@ -111,6 +124,14 @@ export const Tv = () => {
             </Typography.Paragraph>
           </div>
 
+          {tvCredits?.cast?.length ? (
+            <div className={styles.article}>
+              <h3 className={styles.articleTitle}>Cast</h3>
+
+              <MovieSlider data={tvCredits.cast.slice(0, 20)} sliderType={imageSliderType.PERSON} />
+            </div>
+          ) : null}
+
           {tvSimilar ? (
             <div className={styles.article}>
               <h3 className={styles.articleTitle}>Similar</h3>
@@ -119,7 +140,7 @@ export const Tv = () => {
             </div>
           ) : null}
 
-          {tvImages ? (
+          {tvImages?.backdrops?.length ? (
             <div className={styles.article}>
               <h3 className={styles.articleTitle}>Images</h3>
 
@@ -138,6 +159,10 @@ export const Tv = () => {
       ) : (
         'TV DID NOT FOUND'
       )}
+
+      <MainModal isOpen={isDetailed} closeHandler={() => handleDetailedModal(false)}>
+        <DetailedInfo tv={tv} movieCredits={tvCredits} detailedType="tv" />
+      </MainModal>
     </div>
   );
 };

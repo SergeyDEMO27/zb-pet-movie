@@ -7,7 +7,7 @@ import {
 import { StarFilled } from '@ant-design/icons';
 import { MovieSlider } from '../../entities/movieSlider';
 import { posterSize } from './config';
-import { getRandomNumber } from '../../shared/lib';
+import { getRandomNumber, roundToDecimal } from '../../shared/lib';
 import { imageSliderType, darkGradient } from '../../shared/config';
 import styles from './Main.module.scss';
 
@@ -53,7 +53,7 @@ export const Main = () => {
               <span className={styles.icon}>
                 <StarFilled />
               </span>
-              {randomTopMovie?.vote_average ? Math.round(randomTopMovie.vote_average * 10) / 10 : '?'}
+              {randomTopMovie?.vote_average ? roundToDecimal(randomTopMovie.vote_average) : '?'}
             </p>
           </div>
         </div>

@@ -70,8 +70,11 @@ export const moviesApi = api.injectEndpoints({
       transformResponse: (response: Credits) => {
         const filteredCast = response.cast.slice(0, 10);
         const director = response.crew.find(item => item.job === 'Director');
+        const scriptWriters = response.crew.filter(item => item.job === 'Writer');
+        const operators = response.crew.filter(item => item.job === 'Director of Photography');
+        const composers = response.crew.filter(item => item.job === 'Original Music Composer');
 
-        return { ...response, cast: filteredCast, director };
+        return { ...response, cast: filteredCast, director, scriptWriters, operators, composers };
       },
     }),
 

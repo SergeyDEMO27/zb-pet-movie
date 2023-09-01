@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useGetMoviesPopularQuery } from '../../shared/store/api/queries/moviesApi';
 import { StarFilled } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import { roundToDecimal } from '../../shared/lib';
 import { posterSize } from './config';
 import styles from './RightSidebar.module.scss';
 
@@ -31,7 +32,7 @@ export const RightSidebar = () => {
                         <span className={styles.icon}>
                           <StarFilled />
                         </span>
-                        {movie?.vote_average ? Math.round(movie.vote_average * 10) / 10 : '?'}
+                        {movie?.vote_average ? roundToDecimal(movie.vote_average) : '?'}
                       </p>
                     </div>
                   </Link>

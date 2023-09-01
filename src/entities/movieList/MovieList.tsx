@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { Pagination, List, Empty } from 'antd';
 import { StarFilled } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import { roundToDecimal } from '../../shared/lib';
 import { posterSize, listSizeDiscover, listSizeTrending } from './config';
-import { Paginated, Movie, Tv } from '../../shared/types';
+import { Paginated, Movie } from '../../shared/types';
 import styles from './MovieList.module.scss';
 
 interface MovieListProps {
@@ -41,7 +42,7 @@ export const MovieList = ({ data, listType, handleChangePage }: MovieListProps) 
               </div>
               <p className={styles.movieTitle}>{item?.title || '-'}</p>
               <p className={styles.rating}>
-                <StarFilled /> {item?.vote_average ? Math.round(item.vote_average * 10) / 10 : '?'}
+                <StarFilled /> {item?.vote_average ? roundToDecimal(item.vote_average) : '?'}
               </p>
               <p className={styles.movieDate}>
                 {item?.release_date ? dayjs(item.release_date).format('DD MMMM YYYY') : ''}

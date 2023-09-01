@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { StarFilled } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import { roundToDecimal } from '../../../../shared/lib';
 import { posterSize } from './config';
 import { FilteredData } from '../../../../shared/types';
 import styles from './SearchDropdown.module.scss';
@@ -36,7 +37,7 @@ export const SearchDropdown = ({ searchResult, handleOpenMovie }: SearchDropdown
                         <span className={styles.icon}>
                           <StarFilled />
                         </span>
-                        {item?.vote_average || '?'}
+                        {item?.vote_average ? roundToDecimal(item.vote_average) : '?'}
                       </p>
                     </div>
                   </Link>
@@ -54,7 +55,7 @@ export const SearchDropdown = ({ searchResult, handleOpenMovie }: SearchDropdown
             {data?.tv.map(item => {
               return (
                 <li className={styles.item} key={item.id}>
-                  <Link to={`/tv/${item.id}`}>
+                  <Link onClick={handleOpenMovie} to={`/tv/${item.id}`}>
                     <div className={styles.picture}>
                       <img className={styles.image} src={`${IMAGE_URL}${posterSize}${item?.poster_path}`} alt="" />
                     </div>
@@ -67,7 +68,7 @@ export const SearchDropdown = ({ searchResult, handleOpenMovie }: SearchDropdown
                         <span className={styles.icon}>
                           <StarFilled />
                         </span>
-                        {item?.vote_average ? Math.round(item.vote_average * 10) / 10 : '?'}
+                        {item?.vote_average ? roundToDecimal(item.vote_average) : '?'}
                       </p>
                     </div>
                   </Link>
@@ -85,7 +86,7 @@ export const SearchDropdown = ({ searchResult, handleOpenMovie }: SearchDropdown
             {data?.person.map(item => {
               return (
                 <li className={styles.item} key={item.id}>
-                  <Link to={`/person/${item.id}`}>
+                  <Link onClick={handleOpenMovie} to={`/person/${item.id}`}>
                     <div className={styles.picture}>
                       <img className={styles.image} src={`${IMAGE_URL}${posterSize}${item?.profile_path}`} alt="" />
                     </div>

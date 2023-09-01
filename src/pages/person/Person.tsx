@@ -83,7 +83,7 @@ export const Person = () => {
                 expandable: true,
                 symbol: 'more',
               }}>
-              {person?.biography || '-'}
+              {person?.biography || 'no biography'}
             </Typography.Paragraph>
           </div>
 
@@ -95,7 +95,7 @@ export const Person = () => {
             </div>
           ) : null}
 
-          {personImages ? (
+          {personImages?.profiles?.length ? (
             <div className={styles.article}>
               <h3 className={styles.articleTitle}>Images</h3>
 

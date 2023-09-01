@@ -3,6 +3,7 @@
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+import { roundToDecimal } from '../../shared/lib';
 import { posterSize } from './config';
 import { Movie, Tv, Person } from '../../shared/types';
 import dayjs from 'dayjs';
@@ -73,7 +74,7 @@ export const MovieSlider = ({ data, sliderType }: MovieSliderProps) => {
                   <p className={styles.movieTitle}>{item?.title || item?.name || '-'}</p>
                   {sliderType !== 'person' ? (
                     <p className={styles.rating}>
-                      <StarFilled /> {item?.vote_average ? Math.round(item.vote_average * 10) / 10 : '?'}
+                      <StarFilled /> {item?.vote_average ? roundToDecimal(item.vote_average) : '?'}
                     </p>
                   ) : null}
                   {sliderType !== 'person' ? (

@@ -123,6 +123,9 @@ export interface Credits {
   cast: Person[];
   crew: Person[];
   director?: Person;
+  scriptWriters?: Person[];
+  operators?: Person[];
+  composers?: Person[];
 }
 
 export interface MovieCredits {
