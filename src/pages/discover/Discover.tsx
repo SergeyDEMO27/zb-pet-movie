@@ -20,6 +20,8 @@ export const Discover = () => {
     isLoading: isDiscoverLoading,
   } = useGetDiscoverMoviesQuery(filterSettings);
 
+  console.log(selectedGenres);
+
   useEffect(() => {
     setSelectedGenres(genresMovie || []);
   }, [genresMovie]);

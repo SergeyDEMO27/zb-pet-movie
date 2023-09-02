@@ -35,6 +35,11 @@ export interface MovieDetailed extends Movie {
   tagline: string;
 }
 
+export interface MovieCredits extends Movie {
+  job?: string;
+  character?: string;
+}
+
 export interface Tv {
   adult: boolean;
   backdrop_path: string;
@@ -128,10 +133,10 @@ export interface Credits {
   composers?: Person[];
 }
 
-export interface MovieCredits {
+export interface MovieCrew {
   id: number;
-  cast: Movie[];
-  crew: Movie[];
+  cast: MovieCredits[];
+  crew: MovieCredits[];
 }
 
 export interface MovieImages {
@@ -142,7 +147,7 @@ export interface MovieReviews {
   id: number;
   results: {
     author: string;
-    author_details: { username: 'ChrisSawin'; avatar_path: string };
+    author_details: { username: 'ChrisSawin'; avatar_path: string; rating: number };
     content: string;
     created_at: string;
     id: string;

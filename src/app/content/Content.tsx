@@ -6,6 +6,7 @@ import { Tv } from '../../pages/tv';
 import { Discover } from '../../pages/discover';
 import { Trending } from '../../pages/trending';
 import { TopMovies } from '../../pages/topMovies';
+import { SelectedGenreMovies } from '../../pages/selectGenreMovie';
 
 export const Content = () => {
   return (
@@ -17,6 +18,7 @@ export const Content = () => {
       <Route path="/discover" element={<Discover />} />
       <Route path="/trending" element={<Trending />} />
       <Route path="/top" element={<TopMovies />} />
+      <Route path="/movies/*" element={<SelectedGenreMovies />} />
     </Routes>
   );
 };

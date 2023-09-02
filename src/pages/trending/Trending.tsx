@@ -13,7 +13,7 @@ export const Trending = () => {
 
   return (
     <div className={styles.trending}>
-      <h2 className={styles.title}>Trending</h2>
+      <h2 className={styles.title}>Trending movies</h2>
 
       {trending ? <MovieList data={trending} listType="trending" handleChangePage={handleChangePage} /> : null}
     </div>

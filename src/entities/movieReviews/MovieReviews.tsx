@@ -1,8 +1,9 @@
 import { Typography } from 'antd';
-import { SmileOutlined } from '@ant-design/icons';
+import { SmileOutlined, StarFilled } from '@ant-design/icons';
 import { MovieReviews as MovieReviewsType } from '../../shared/types';
 import { avatarSize } from './config';
 import dayjs from 'dayjs';
+import { roundToDecimal } from '../../shared/lib';
 import styles from './MovieReviews.module.scss';
 
 interface MovieReviewsProps {
@@ -33,10 +34,17 @@ export const MovieReviews = ({ data }: MovieReviewsProps) => {
               </div>
               <span className={styles.reviewsAuthor}>{item?.author_details?.username || '-'}</span>
             </div>
+
             <span className={styles.reviewsDate}>
               {item?.created_at ? dayjs(item.created_at).format('DD MMMM YYYY') : ''}
             </span>
           </div>
+          <p className={styles.rating}>
+            <span className={styles.icon}>
+              <StarFilled />
+            </span>
+            {item?.author_details?.rating ? roundToDecimal(item.author_details.rating) : '?'}
+          </p>
 
           <div className={styles.content} key={item.id}>
             <Typography.Paragraph

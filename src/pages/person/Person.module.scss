@@ -90,3 +90,17 @@
 .articleTitle {
   color: $color-white;
 }
+
+.works {
+  display: flex;
+  justify-content: space-between;
+
+  .worksItem {
+    width: 50%;
+  }
+
+  .worksTitle {
+    margin-top: 0;
+    color: $color-white;
+  }
+}

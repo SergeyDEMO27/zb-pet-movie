@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   HomeFilled,
@@ -10,8 +11,8 @@ import {
   SearchOutlined,
   LoginOutlined,
 } from '@ant-design/icons';
+import { movieGenres, movieGenresIds } from './config';
 import styles from './MainSidebar.module.scss';
-import React, { useState } from 'react';
 
 export const MainSidebar = () => {
   const location = useLocation();
@@ -78,36 +79,64 @@ export const MainSidebar = () => {
           <h3 className={styles.title}>Popular genres</h3>
 
           <ul className={styles.list}>
-            <li className={styles.item} key="comedy">
-              <Link className={styles.link} to="/">
+            <li
+              className={`${styles.item} ${
+                location.pathname === `/movies/${movieGenres.COMEDY}` ? styles.itemActive : ''
+              }`}
+              key={movieGenres.COMEDY}>
+              <Link
+                className={styles.link}
+                to={`/movies/${movieGenres.COMEDY}`}
+                state={{ id: movieGenresIds.COMEDY, title: movieGenres.COMEDY }}>
                 <span className={styles.icon}>
                   <SmileFilled />
                 </span>
-                Comedy
+                {movieGenres.COMEDY}
               </Link>
             </li>
-            <li className={styles.item} key="mystery">
-              <Link className={styles.link} to="/">
+            <li
+              className={`${styles.item} ${
+                location.pathname === `/movies/${movieGenres.MYSTERY}` ? styles.itemActive : ''
+              }`}
+              key={movieGenres.MYSTERY}>
+              <Link
+                className={styles.link}
+                to={`/movies/${movieGenres.MYSTERY}`}
+                state={{ id: movieGenresIds.MYSTERY, title: movieGenres.MYSTERY }}>
                 <span className={styles.icon}>
                   <SearchOutlined />
                 </span>
-                Mystery
+                {movieGenres.MYSTERY}
               </Link>
             </li>
-            <li className={styles.item} key="biography">
-              <Link className={styles.link} to="/">
+            <li
+              className={`${styles.item} ${
+                location.pathname === `/movies/${movieGenres.HISTORY}` ? styles.itemActive : ''
+              }`}
+              key={movieGenres.HISTORY}>
+              <Link
+                className={styles.link}
+                to={`/movies/${movieGenres.HISTORY}`}
+                state={{ id: movieGenresIds.HISTORY, title: movieGenres.HISTORY }}>
                 <span className={styles.icon}>
                   <ReadFilled />
                 </span>
-                Biography
+                {movieGenres.HISTORY}
               </Link>
             </li>
-            <li className={styles.item} key="romance">
-              <Link className={styles.link} to="/">
+            <li
+              className={`${styles.item} ${
+                location.pathname === `/movies/${movieGenres.ROMANCE}` ? styles.itemActive : ''
+              }`}
+              key={movieGenres.ROMANCE}>
+              <Link
+                className={styles.link}
+                to={`/movies/${movieGenres.ROMANCE}`}
+                state={{ id: movieGenresIds.ROMANCE, title: movieGenres.ROMANCE }}>
                 <span className={styles.icon}>
                   <HeartFilled />
                 </span>
-                Romance
+                {movieGenres.ROMANCE}
               </Link>
             </li>
           </ul>

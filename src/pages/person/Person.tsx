@@ -9,6 +9,7 @@ import { Typography } from 'antd';
 import { FacebookFilled, InstagramFilled, TwitterSquareFilled, YoutubeFilled } from '@ant-design/icons';
 import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
+import { PersonWorks } from './ui/personWorks';
 import dayjs from 'dayjs';
 import { imageSliderType } from '../../shared/config';
 import styles from './Person.module.scss';
@@ -100,6 +101,22 @@ export const Person = () => {
               <h3 className={styles.articleTitle}>Images</h3>
 
               <ImageSlider data={personImages.profiles} imageType="person" />
+            </div>
+          ) : null}
+          {personMovieCredits?.cast?.length ? (
+            <div className={styles.article}>
+              <h3 className={styles.articleTitle}>Works</h3>
+
+              <div className={styles.works}>
+                <div className={styles.worksItem}>
+                  <h4 className={styles.worksTitle}>Actor</h4>
+                  <PersonWorks data={personMovieCredits.cast} />
+                </div>
+                <div className={styles.worksItem}>
+                  <h4 className={styles.worksTitle}>Others</h4>
+                  <PersonWorks data={personMovieCredits.crew} />
+                </div>
+              </div>
             </div>
           ) : null}
         </div>

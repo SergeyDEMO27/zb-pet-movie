@@ -1,5 +1,6 @@
 import { api } from '../api';
-import { PersonDetailed, PersonImages, Social, MovieCredits } from '../../../types';
+import { PersonDetailed, PersonImages, Social, MovieCrew } from '../../../types';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 export const personApi = api.injectEndpoints({
   endpoints: builder => ({
@@ -33,13 +34,23 @@ export const personApi = api.injectEndpoints({
       },
     }),
 
-    getPersonMovieCredits: builder.query<MovieCredits, { person_id: string }>({
+    getPersonMovieCredits: builder.query<MovieCrew, { person_id: string }>({
       query: arg => {
         const { person_id } = arg;
 
         return {
           url: `/person/${person_id}/movie_credits`,
         };
+      },
+      transformResponse: (response: MovieCrew) => {
+        const sortedCast = { ...response }.cast
+          .filter(item => item?.release_date)
+          .sort((a, b) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime());
+        const sortedCrew = { ...response }.crew
+          .filter(item => item?.release_date)
+          .sort((a, b) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime());
+
+        return { ...response, cast: sortedCast, crew: sortedCrew };
       },
     }),
   }),

@@ -60,10 +60,16 @@ export const ImageSlider = ({ data, imageType }: ImageSliderProps) => {
           );
         })}
       </Swiper>
-      <div className={`${styles.swiperButtonPrev} swiperBtnImgPrev`}>
+      <div
+        className={`${styles.swiperButtonPrev} swiperBtnImgPrev  ${
+          imageType !== 'movie' ? styles.swiperButtonPrevPers : ''
+        }`}>
         <ArrowLeftOutlined />
       </div>
-      <div className={`${styles.swiperButtonNext} swiperBtnImgNext`}>
+      <div
+        className={`${styles.swiperButtonNext} swiperBtnImgNext ${
+          imageType !== 'movie' ? styles.swiperButtonNextPers : ''
+        }`}>
         <ArrowRightOutlined />
       </div>
     </div>

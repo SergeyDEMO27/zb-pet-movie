@@ -2,9 +2,9 @@
 // @ts-nocheck
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import { Image } from 'antd';
+
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import { posterSize } from './config';
+import { options } from './config';
 import YouTube from 'react-youtube';
 import { MovieVideos } from '../../shared/types';
 import 'swiper/css';
@@ -19,24 +19,14 @@ interface VideoSliderProps {
 export const VideoSlider = ({ data }: VideoSliderProps) => {
   const IMAGE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
 
-  const opts = {
-    height: '135',
-    width: '235',
-    playerVars: {
-      // https://developers.google.com/youtube/player_parameters
-      autoplay: 0,
-    },
-  };
-
   const handleReady = e => {
-    // access to player in all event handlers via event.target
     e.target.pauseVideo();
   };
 
   return (
     <div className={styles.imageSlider}>
       <Swiper
-        slidesPerView={4}
+        slidesPerView={2}
         spaceBetween={20}
         loop={true}
         showsPagination={false}
@@ -50,7 +40,7 @@ export const VideoSlider = ({ data }: VideoSliderProps) => {
           return (
             <SwiperSlide key={item.id}>
               <div className={styles.item}>
-                <YouTube videoId={item.key} opts={opts} onReady={handleReady} />
+                <YouTube videoId={item.key} opts={options} onReady={handleReady} />
               </div>
             </SwiperSlide>
           );
