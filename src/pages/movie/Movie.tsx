@@ -9,7 +9,7 @@ import {
   useGetMovieSocialQuery,
   useGetMovieVideosQuery,
 } from '../../shared/store/api/queries/moviesApi';
-import { Typography, Button } from 'antd';
+import { Typography, Spin } from 'antd';
 import { StarFilled, FacebookFilled, InstagramFilled, TwitterSquareFilled } from '@ant-design/icons';
 import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
@@ -40,6 +40,12 @@ export const Movie = () => {
 
   return (
     <div className={styles.movie}>
+      {isLoading ? (
+        <div className={styles.center}>
+          <Spin size="large" />
+        </div>
+      ) : null}
+
       {movie ? (
         <div>
           <div
@@ -167,9 +173,7 @@ export const Movie = () => {
             </div>
           ) : null}
         </div>
-      ) : (
-        'MOVIE DID NOT FOUND'
-      )}
+      ) : null}
 
       <MainModal isOpen={isDetailed} closeHandler={() => handleDetailedModal(false)}>
         <DetailedInfo movie={movie} movieCredits={movieCredits} detailedType="movie" />

@@ -1,30 +1,41 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGetGenresMoviesQuery } from '../../shared/store/api/queries/genreApi';
 import { useGetDiscoverMoviesQuery } from '../../shared/store/api/queries/discoverApi';
+import { actions } from '../../shared/store/main/filter.slice';
 import { Form, Slider, Button, Select, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { MovieList } from '../../entities/movieList';
 import { sortByOptions } from './config';
 import { SelectOptions, DiscoverReqData } from '../../shared/types';
+import { RootState } from '../../shared/store/store';
+import { defaultInputState } from '../../shared/config';
 import styles from './Discover.module.scss';
 
 export const Discover = () => {
+  const filterData = useSelector((state: RootState) => state.filter.filter);
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const [filterSettings, setFilterSettings] = useState<DiscoverReqData>({});
   const [selectedGenres, setSelectedGenres] = useState<SelectOptions>([]);
   const [disabledGenres, setDisabledGenres] = useState<SelectOptions>([]);
-  const { data: genresMovie, isError: isGenreError, isLoading: isGenreLoading } = useGetGenresMoviesQuery();
-  const {
-    data: discoverMovies,
-    isError: isDiscoverError,
-    isLoading: isDiscoverLoading,
-  } = useGetDiscoverMoviesQuery(filterSettings);
-
-  console.log(selectedGenres);
+  const { data: genresMovie, isLoading: isGenreLoading } = useGetGenresMoviesQuery();
+  const { data: discoverMovies, isLoading: isDiscoverLoading } = useGetDiscoverMoviesQuery(filterData);
 
   useEffect(() => {
     setSelectedGenres(genresMovie || []);
   }, [genresMovie]);
+
+  useEffect(() => {
+    const { sort_by, with_genres, without_genres, vote_average, dateStart, dateEnd } = filterData;
+
+    form.setFieldsValue({
+      sort_by,
+      with_genres,
+      without_genres,
+      vote_average,
+      yearRange: [dateStart ? dayjs(dateStart) : defaultInputState, dateEnd ? dayjs(dateEnd) : defaultInputState],
+    });
+  }, [filterData, form]);
 
   const formSubmitHandler = (values: DiscoverReqData) => {
     const reqData = {
@@ -32,7 +43,8 @@ export const Discover = () => {
       dateStart: values.yearRange?.[0] ? `${dayjs(values.yearRange[0]).format('YYYY')}-01-01` : '',
       dateEnd: values.yearRange?.[1] ? `${dayjs(values.yearRange[1]).format('YYYY')}-12-31` : '',
     };
-    setFilterSettings(reqData);
+
+    dispatch(actions.changeFilter(reqData));
   };
 
   const handleSelectGenre = (values: number[]) => {
@@ -41,11 +53,11 @@ export const Discover = () => {
   };
 
   const handleChangePage = (value: number) => {
-    setFilterSettings({ ...filterSettings, page: value });
+    dispatch(actions.changeFilter({ ...filterData, page: value }));
   };
 
   const handleResetDiscover = () => {
-    setFilterSettings({});
+    dispatch(actions.changeFilter({ filter: {} }));
     form.resetFields();
   };
 
@@ -97,13 +109,17 @@ export const Discover = () => {
               <DatePicker.RangePicker picker="year" />
             </Form.Item>
 
-            <Form.Item label="Rating" name="vote_average">
+            <Form.Item label={`Rating ${filterData?.vote_average || ''}`} name="vote_average">
               <Slider max={10} min={0} step={0.1} />
             </Form.Item>
 
             <div className={styles.buttons}>
               <Form.Item>
-                <Button htmlType="submit" className={styles.button} type="primary" loading={isDiscoverLoading}>
+                <Button
+                  htmlType="submit"
+                  className={styles.button}
+                  type="primary"
+                  loading={isDiscoverLoading || isGenreLoading}>
                   Search
                 </Button>
               </Form.Item>

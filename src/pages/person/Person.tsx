@@ -5,7 +5,7 @@ import {
   useGetPersonSocialQuery,
   useGetPersonMovieCreditsQuery,
 } from '../../shared/store/api/queries/personApi';
-import { Typography } from 'antd';
+import { Typography, Spin } from 'antd';
 import { FacebookFilled, InstagramFilled, TwitterSquareFilled, YoutubeFilled } from '@ant-design/icons';
 import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
@@ -23,6 +23,12 @@ export const Person = () => {
 
   return (
     <div className={styles.person}>
+      {isLoading ? (
+        <div className={styles.center}>
+          <Spin size="large" />
+        </div>
+      ) : null}
+
       {person ? (
         <div>
           <div className={styles.head}>
@@ -120,9 +126,7 @@ export const Person = () => {
             </div>
           ) : null}
         </div>
-      ) : (
-        'MOVIE DID NOT FOUND'
-      )}
+      ) : null}
     </div>
   );
 };

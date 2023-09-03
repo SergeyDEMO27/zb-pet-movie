@@ -8,7 +8,7 @@ import {
   useGetTvReviewsQuery,
   useGetTvSocialQuery,
 } from '../../shared/store/api/queries/tvApi';
-import { Typography } from 'antd';
+import { Typography, Spin } from 'antd';
 import { StarFilled, FacebookFilled, InstagramFilled, TwitterSquareFilled } from '@ant-design/icons';
 import { MovieSlider } from '../../entities/movieSlider';
 import { ImageSlider } from '../../entities/imageSlider';
@@ -37,6 +37,12 @@ export const Tv = () => {
 
   return (
     <div className={styles.tv}>
+      {isLoading ? (
+        <div className={styles.center}>
+          <Spin size="large" />
+        </div>
+      ) : null}
+
       {tv ? (
         <div>
           <div
@@ -156,9 +162,7 @@ export const Tv = () => {
             </div>
           ) : null}
         </div>
-      ) : (
-        'TV DID NOT FOUND'
-      )}
+      ) : null}
 
       <MainModal isOpen={isDetailed} closeHandler={() => handleDetailedModal(false)}>
         <DetailedInfo tv={tv} movieCredits={tvCredits} detailedType="tv" />
