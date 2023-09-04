@@ -5,9 +5,9 @@ module.exports = {
         implementation: require('sass'),
         webpackImporter: false,
         additionalData: `
-        @import "./src/assets/scss/fonts.scss";
-        @import "./src/assets/scss/mixins.scss";
-        @import "./src/assets/scss/variables.scss";
+        @import "./src/shared/assets/scss/fonts.scss";
+        @import "./src/shared/assets/scss/mixins.scss";
+        @import "./src/shared/assets/scss/variables.scss";
       `,
       },
     },
